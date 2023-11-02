@@ -1,0 +1,45 @@
+sar
+/etc/sysctl.conf as sysctl.txt
+/etc/security/limits.conf as limits.txt
+/etc/fstab as fstab.txt
+[/etc/os-release /etc/redhat-release /etc/system-release] into linux-release.txt
+"cat /proc/cmdline" -> cmdline.txt
+"uname -a" -> uname.txt
+fips.txt, `cat /proc/sys/crypto/fips-enabled`, exit status 1
+"cat /proc/cpuinfo" -> cpu.txt
+"ls -la /mnt/data" -> fs-permissions-mnt-data.txt
+"xfs_info /apps/data/elastic" -> xfs-info.txt
+lsblk.json, `lsblk --json -o NAME,RA,MOUNTPOINT,TYPE,TRAN,SIZE,MIN-IO,FSTYPE`, exit status 1
+"mount" -> mounts.txt
+"df -h" -> df.txt
+"ls -la /apps/data/elastic" -> fs-permissions-storage-path.txt
+"lsblk -o NAME,RA,MOUNTPOINT,TYPE,TRAN,SIZE,MIN-IO,FSTYPE" -> lsblk.txt
+
+"sar -n DEV" -> sar-network.txt
+
+"systemctl cat docker.service" -> systemd.unit
+"ps -eaf" -> ps.txt
+
+ip-routing-tables.txt, `sudo -n ip rule show`, exit status 1
+iptables.txt, `sudo -n iptables -L -v -n`, exit status 1
+"timedatectl" -> timedatectl.txt
+iptables.txt, `iptables -L -v -n`, exit status 3
+"ip rule show" -> ip-routing-tables.txt
+dmesg.txt, `sudo -n dmesg --ctime`, exit status 1
+routes.txt, `sudo -n route -n`, exit status 1
+"route -n" -> routes.txt
+netstat-all.txt, `sudo -n netstat -anp`, exit status 1
+netstat-listening.txt, `sudo -n netstat -ntulpn`, exit status 1
+"sysctl -a" -> sysctl.txt
+"dmesg --ctime" -> dmesg.txt
+"top -b -n1" -> top.txt
+"ss" -> ss.txt
+"top -b -n1 -H" -> top-threads.txt
+"sar -q 1 1" -> sar-load-average-sampled.txt
+"sar -S 1 1" -> sar-swap-sampled.txt
+
+"netstat -ntulpn" -> netstat-listening.txt
+"iostat -c -d -x -t -m 1 5" -> iostat.txt
+"sar -P ALL 1 5" -> sar-cpu-cores.txt
+"sar -d -p 1 5" -> sar-devices.txt
+"sar -r 1 5" -> sar-memory-sampled.txt
