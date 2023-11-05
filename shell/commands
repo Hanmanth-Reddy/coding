@@ -1,45 +1,124 @@
+CPU
+===========
 sar
-/etc/sysctl.conf as sysctl.txt
+sar -q 1 1  //sar-load-average-sampled.txt
+sar -S 1 1  //sar-swap-sampled.txt
+sar -P ALL 1 5  //sar-cpu-cores.txt
+sar -d -p 1 5  //sar-devices.txt
+sar -r 1 5  //sar-memory-sampled.txt
+sar -n DEV  //sar-network.txt
+
+
+
+
+Memory
+=========
+free -g
+
+
+Disk
+======
+xfs_info /apps/data/elastic
+lsblk --json -o NAME,RA,MOUNTPOINT,TYPE,TRAN,SIZE,MIN-IO,FSTYPE`
+lsblk -o NAME,RA,MOUNTPOINT,TYPE,TRAN,SIZE,MIN-IO,FSTYPE
+cat /etc/fstab
+mount
+df -h
+du -sh 
+
+dd - data duplicator - used for copying and converting data between files and devices
+used for various tasks, including creating backups, cloning disks, and generating random data 
+dd if=input_file of=output_file // Copying Data from One File to Another
+dd if=/dev/sdX of=partition_image.img  //Creating a Backup or Disk Image
+dd if=/dev/sdX of=/dev/sdY bs=4M //Cloning Disk or Partitions
+dd if=/dev/urandom of=random_data.bin bs=1M count=10 // Creating Random Data
+dd if=input_file of=/dev/null bs=1M //Checking Disk or File Read Speed
+dd if=/dev/zero of=output_file bs=1M count=10 //Creating a File of a Specific Size
+
+
+
+Systemctl 
+==========
+sysctl -a
+/etc/sysctl.conf 
+systemctl cat docker.service
+
+
+OS info
+===========
+/etc/os-release
+/etc/redhat-release
+/etc/system-release
+
+
+Processes 
+============
+ps -eaf
+top -b -n1
+top -b -n1 -H    //top-threads.txt
+find /proc -maxdepth 1 -type d -name '[0-9]*' -exec cat {}/status \; | grep <process_name>
+
+
+
+Networking
+==============
+ip rule show
+dmesg --ctime
+route -n
+
+sudo -n netstat -ntulpn
+ss -tualno   //Socket Statistics
+
+iptables -L -v -n  //iptables.txt
+iptables -L -v -n   //iptables.txt
+
+
+Debug
+===========
+lsof
+ulimit -n 
+/etc/security/limits.conf
 /etc/security/limits.conf as limits.txt
-/etc/fstab as fstab.txt
-[/etc/os-release /etc/redhat-release /etc/system-release] into linux-release.txt
-"cat /proc/cmdline" -> cmdline.txt
-"uname -a" -> uname.txt
-fips.txt, `cat /proc/sys/crypto/fips-enabled`, exit status 1
-"cat /proc/cpuinfo" -> cpu.txt
-"ls -la /mnt/data" -> fs-permissions-mnt-data.txt
-"xfs_info /apps/data/elastic" -> xfs-info.txt
-lsblk.json, `lsblk --json -o NAME,RA,MOUNTPOINT,TYPE,TRAN,SIZE,MIN-IO,FSTYPE`, exit status 1
-"mount" -> mounts.txt
-"df -h" -> df.txt
-"ls -la /apps/data/elastic" -> fs-permissions-storage-path.txt
-"lsblk -o NAME,RA,MOUNTPOINT,TYPE,TRAN,SIZE,MIN-IO,FSTYPE" -> lsblk.txt
 
-"sar -n DEV" -> sar-network.txt
+while :; do :; done  // infinite loop for CPU stress
+stress --cpu 4 --timeout 60s  // To create CPU stress 
+dd if=/dev/zero of=/dev/null bs=1M   // Disk Stress (Indirect CPU Stress) , read from /dev/zero and write to /dev/null , adjust bs - block size
 
-"systemctl cat docker.service" -> systemd.unit
-"ps -eaf" -> ps.txt
+fallocate -l 10M output_file
+truncate -s 10M output_file
+dd if=/dev/zero of=output_file bs=1M count=10
 
-ip-routing-tables.txt, `sudo -n ip rule show`, exit status 1
-iptables.txt, `sudo -n iptables -L -v -n`, exit status 1
-"timedatectl" -> timedatectl.txt
-iptables.txt, `iptables -L -v -n`, exit status 3
-"ip rule show" -> ip-routing-tables.txt
-dmesg.txt, `sudo -n dmesg --ctime`, exit status 1
-routes.txt, `sudo -n route -n`, exit status 1
-"route -n" -> routes.txt
-netstat-all.txt, `sudo -n netstat -anp`, exit status 1
-netstat-listening.txt, `sudo -n netstat -ntulpn`, exit status 1
-"sysctl -a" -> sysctl.txt
-"dmesg --ctime" -> dmesg.txt
-"top -b -n1" -> top.txt
-"ss" -> ss.txt
-"top -b -n1 -H" -> top-threads.txt
-"sar -q 1 1" -> sar-load-average-sampled.txt
-"sar -S 1 1" -> sar-swap-sampled.txt
 
-"netstat -ntulpn" -> netstat-listening.txt
-"iostat -c -d -x -t -m 1 5" -> iostat.txt
-"sar -P ALL 1 5" -> sar-cpu-cores.txt
-"sar -d -p 1 5" -> sar-devices.txt
-"sar -r 1 5" -> sar-memory-sampled.txt
+
+
+
+
+
+proc
+=======
+cat /proc/sys/crypto/fips-enabled
+/proc/[PID]/status
+cat /proc/cmdline
+/proc/[PID]/cmdline
+/proc/meminfo
+/proc/cpuinfo
+/proc/loadavg
+/proc/sys/fs/file-max
+
+
+Kernel
+========
+uname -a
+
+
+timedatectl
+dmesg --ctime
+
+
+iostat -c -d -x -t -m 1 5
+sysstat
+iostat 
+strace
+
+
+truncate --szie=100M filename.txt
