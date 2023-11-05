@@ -1,3 +1,32 @@
+
+which [command]
+
+
+Package management
+====================
+rpm -qa 
+
+rpm -ql [package name]
+rpm -qf [binary/filename]
+
+
+
+Access Control
+===============
+chmod
+4 2 1
+u g o ,   r w x 
+
+
+chown user:group * -Rf
+setfacl
+setfacl -m u:hanmanth:rwx  /data
+setfacl -m g:DevOps :rwx  /data
+setfacl -m u:user1:--- /data
+getfacl --access /data | setfacl -d -M- /db
+getfacl /data/file1 | setfacl --set-file=- /test"
+
+
 CPU
 ===========
 sar
@@ -7,8 +36,6 @@ sar -P ALL 1 5  //sar-cpu-cores.txt
 sar -d -p 1 5  //sar-devices.txt
 sar -r 1 5  //sar-memory-sampled.txt
 sar -n DEV  //sar-network.txt
-
-
 
 
 Memory
@@ -22,6 +49,7 @@ xfs_info /apps/data/elastic
 lsblk --json -o NAME,RA,MOUNTPOINT,TYPE,TRAN,SIZE,MIN-IO,FSTYPE`
 lsblk -o NAME,RA,MOUNTPOINT,TYPE,TRAN,SIZE,MIN-IO,FSTYPE
 cat /etc/fstab
+
 mount
 df -h
 du -sh 
@@ -42,6 +70,7 @@ Systemctl
 sysctl -a
 /etc/sysctl.conf 
 systemctl cat docker.service
+journalctl -xe
 
 
 OS info
@@ -62,15 +91,41 @@ find /proc -maxdepth 1 -type d -name '[0-9]*' -exec cat {}/status \; | grep <pro
 
 Networking
 ==============
+ping
+telnet <domian/ip> <port>
+nc -vz <domain/ip> <port>
+
+ifconfig 
+ip addr show 
 ip rule show
-dmesg --ctime
+ip -s link show
 route -n
 
-sudo -n netstat -ntulpn
+netstat -ntulpn
 ss -tualno   //Socket Statistics
 
 iptables -L -v -n  //iptables.txt
 iptables -L -v -n   //iptables.txt
+
+tcpdump -i <interface> -nn -s0 -A 'tcp port <port>'
+
+wget <url>
+curl -O http://example.com/file.zip  //download a file
+curl -X POST -d "param1=value1&param2=value2" http://example.com
+curl -H "Authorization: Bearer Token" -H "Content-Type: application/json" http://example.com
+curl -L http://example.com  //headers only 
+curl -X POST -F "file=@localfile.txt" http://example.com/upload  //upload a file
+curl -k -u user:password -XPOST  -H "Authorization: Bearer Token" -H "Content-Type: application/json" -d "param1=value1&param2=value2" http://example.com
+
+/etc/hosts
+/etc/hosts.allow
+/etc/hosts.deny
+/etc/resolv.conf
+/etc/switch.conf
+/etc/networks
+/etc/sysconfig/network
+/etc/systemconfig 
+/etc/systemconfig/network-scripts
 
 
 Debug
@@ -88,10 +143,8 @@ fallocate -l 10M output_file
 truncate -s 10M output_file
 dd if=/dev/zero of=output_file bs=1M count=10
 
-
-
-
-
+strace
+ltrace
 
 
 proc
@@ -109,16 +162,45 @@ cat /proc/cmdline
 Kernel
 ========
 uname -a
-
+dmesg --ctime        // displays kernel messages, helping you diagnose hardware and system-related issues.
 
 timedatectl
-dmesg --ctime
 
 
+IO
+====
 iostat -c -d -x -t -m 1 5
 sysstat
 iostat 
-strace
 
 
-truncate --szie=100M filename.txt
+Environment Variables
+======================
+env 
+/etc/environment 
+
+
+File Ops and Text processing 
+===============================
+cat
+wc
+sort
+grep 
+egrep
+sed
+
+awk '{print}' employee.txt
+awk '/manager|DevOps/'  {print $1, $2, $NF}' employee.txt "
+awk options 'selection _criteria {action }' input-file > output-file
+
+User mgmt
+==========
+
+
+Sudoers mgmt
+=============
+
+
+Speacial Commands
+==================
+truncate --size=100M filename.txt
