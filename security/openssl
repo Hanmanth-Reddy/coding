@@ -1,1 +1,31 @@
-CA, CSR
+CA, 
+
+
+Generate CSR( Certificate Signing request)
+
+Method1:
+Step 1) To create privateKey
+openssl genrsa -out yourdomain.key 2048
+
+To verify PrivateKey content
+openssl rsa -text -in yourdomain.key -noout
+
+Step 2) Create CSR using existing PrivateKey 
+openssl req -new -key yourdomain.pem -out my_csr.csr
+
+Method2:
+openssl req -new -newkey rsa:2048 -nodes -keyout domain.key -out domain.csr
+
+Method3:
+openssl req -new -newkey rsa:2048 -nodes -keyout domain.key -out domain.csr
+-subj "/C=US/ST=California/L=SanJose/O=AI Systems Inc./OU=IT/CN=example.aisystems.com/emailAddress=hanmanth.scm@gmail.com"
+
+
+To verify CSR information:
+-----------------------------
+openssl req -text -in domain.csr -noout -verify
+
+
+To verify DigitalCert information that received from CA
+-----------------------------------------------------------
+openssl x509 -text -in yourdomain.crt -noout
