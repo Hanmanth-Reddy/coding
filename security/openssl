@@ -25,10 +25,6 @@ openssl req -new -newkey rsa:2048 -nodes -keyout domain.key -out domain.csr
 openssl req -text -in domain.csr -noout -verify
 
 
-=================== To verify DigitalCert information that received from CA ======================
-openssl x509 -text -in yourdomain.crt -noout
-
-
 =================== command to connect server using client and get some info  ===========================
 openssl s_client -connect domain.com:443 < /dev/null
 openssl s_client -connect domain.com:443 -showcerts < /dev/null
@@ -58,3 +54,6 @@ openssl verify -CAfile ca.crt certificate.crt
 
 openssl x509 -in certificate.crt -pubkey -noout > public_key.pem //Extact publich key from Digitalcert
 
+================================= TO generate privateKey ======================================
+openssl genrsa -out private.key 2048
+openssl genpkey -algorithm RSA -out private.key
