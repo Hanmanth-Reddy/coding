@@ -1,0 +1,15 @@
+####### To generate SSH publicKey & PrivateKey
+ssh-keygen -t rsa -b 2048
+
+######### copy publicKey to remote machine for the passwordless authentication ############
+ssh-copy-id username@ip
+
+[OR]
+
+mkdir -p ~/.ssh
+touch ~/.ssh/authorized_keys
+chmod 700 ~/.ssh
+chmod 600 ~/.ssh/authorized_keys
+
+scp ~/.ssh/id_rsa.pub username@ip:~/.ssh/authorized_keys
+
