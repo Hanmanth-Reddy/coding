@@ -146,6 +146,7 @@ dd if=/dev/zero of=output_file bs=1M count=10
 strace
 ltrace
 
+watch -n 1 'command'
 
 proc
 =======
