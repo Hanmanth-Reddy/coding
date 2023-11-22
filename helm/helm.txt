@@ -5,8 +5,6 @@ helm search hub elastic --list-repo-url
 helm search repo <keyword>
 helm search repo elastic 
 
-
-
 =================================== To list repos list =======================================
 helm repo list
 
@@ -15,6 +13,14 @@ helm repo add spark-operator https://googlecloudplatform.github.io/spark-on-k8s-
 
 helm repo update
 
+=================================== Chart download and publish charts =====================================
+helm pull spark-operator/spark-operator
+helm pull https://googlecloudplatform.github.io/spark-on-k8s-operator
+
+helm push ./my-chart/ https://mychartrepo.example.com --username myuser --password mypassword
+
+helm registry login <host>
+helm registry logout <host>
 
 =================================== Releases ====================================================
 #To list installed helm relases
@@ -28,18 +34,15 @@ helm history spark-release-5
 helm rollback <release-name> <revision-name> -f custom-values.yaml
 helm rollback spark-release-5 2 -f custom-values.yaml
 
-
 # To uninstall the specific release
 helm uninstall <release-name> --namespace <namespace> --wait --timeout 300s
 helm uninstall spark-release-5  --namespace spark-operator --wait --timeout 300s
-
 
 # To install relases
 helm install <release-name> <repo>/<chart-name> --namespace <namespace> -f values.yaml --service-account <service-account> --timeout 300s --dry-run --debug
 helm install <release-name> <repo>/<chart-name> --namespace <namespace> --set key1=value1,key2=value2 --service-account <service-account> --timeout 300s --dry-run --debug 
 
 helm install spark-release-5 spark-operator/spark-operator --namespace spark-operator --set batchScheduler.enable=true --set webhook.enable=true --set operatorImageName=spark-operator/spark-operator --create-namespace
-
 
 # To upgrade relase 
 helm upgrade [RELEASE_NAME] [CHART_NAME]
@@ -48,19 +51,25 @@ helm upgrade myapp stable/mysql --version 1.2.3 --atomic -f custom-values.yaml
 helm upgrade myapp stable/mysql --version 1.2.3 --atomic --set mysqlRootPassword=newpassword
 helm upgrade myapp stable/mysql --recreate-pods
 
-=================================== Charts =========================================================
+# To get details about release 
+helm get all [release]
+helm get all spark-relase-5
 
-helm create 
-helm lint
-helm lint ./path/to/mychart
-helm template
+=================================== Charts Management =========================================================
+# Create helm template
+helm create hello
+
+helm lint </path/to/mychart>
+helm lint hello
+
 helm template [RELEASE_NAME] [CHART_NAME]
+helm template spark-release-5 spark-operator --set key1=val1,key2=val2
+
+
 helm get values [RELEASE_NAME]
 kubectl get pods -n default -l release=myapp
-helm pull
- 
-helm dependency update [CHART_NAME]
-helm dependency update [CHART_NAME]
 
+helm dependency update [CHART_NAME]
+helm dependency update [CHART_NAME]
 
 helm status [RELEASE_NAME]
