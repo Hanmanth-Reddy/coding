@@ -1,0 +1,19 @@
+
+# Master Node 1
+kubeadm init --control-plane-endpoint=<LOAD_BALANCER_IP> --apiserver-advertise-address=<MASTER_NODE_1_IP> --pod-network-cidr=192.168.0.0/16
+
+# Copy kube config file
+mkdir -p $HOME/.kube
+cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+chown $(id -u):$(id -g) $HOME/.kube/config
+
+# install a network plugin(Calico) on the master node 1
+kubectl apply -f https://docs.projectcalico.org/v3.18/manifests/calico.yaml
+
+
+# Master Node 2
+sudo kubeadm join <LOAD_BALANCER_IP>:<CONTROL_PLANE_PORT> --token <TOKEN> --discovery-token-ca-cert-hash <CA_CERT_HASH>
+
+# Master Node 3
+sudo kubeadm join <LOAD_BALANCER_IP>:<CONTROL_PLANE_PORT> --token <TOKEN> --discovery-token-ca-cert-hash <CA_CERT_HASH>
+
