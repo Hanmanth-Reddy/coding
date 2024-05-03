@@ -1,0 +1,44 @@
+Remote Reindexing 
+------------------
+POST _reindex?wait_for_completion=false
+{
+#### "max_docs":2000,
+  "source": {
+    "remote": {
+      "host": "http://<IP>:9200",
+      "username": "elastic",
+      "password": "<Password>"
+    },
+    "index": "<remote/source-Index>",
+    "query": {
+      "match_all": {}
+    },
+    "size": 5
+  },
+  "dest": {
+    "index": "<Destination Index>"
+  }
+}
+
+Taking Snapshots
+------------------
+POST _snapshot/<repository>/<snapshot>?wait_for_completion=false
+{
+"indices": "<index>",
+"ignore_unavailable": true,
+"include_global_state": true,
+"include_aliases": false,
+"metadata": {
+"taken_because": "prod backup"
+}
+}
+
+Restore
+-----------------
+POST /_snapshot/<repository>/<snapshot>/_restore?wait_for_completion=false
+{
+  "indices": "<index>",
+  "ignore_unavailable": true,
+  "include_global_state": false,
+  "include_aliases": false
+}
