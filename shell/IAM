@@ -1,0 +1,49 @@
+
+########### To create service account #######
+# gcloud iam service-accounts create sa-prd-app \
+--description="prd app SA" \
+--display-name="sa-prd-app" \
+--project=<project_id>  
+
+####### To create SA key ##############
+# gcloud iam service-accounts keys create ./json/sa-prd-app.json \
+--iam-account sa-prd-app@<project_id>.iam.gserviceaccount.com 
+
+
+######## To add roles to a SA ###################
+CLUSTER_ADMIN_SA_EMAIL=my-iam-account@my-project.iam.gserviceaccount.com
+PROJECT=my-project-id
+# gcloud projects add-iam-policy-binding $PROJECT \
+--member serviceAccount:$CLUSTER_ADMIN_SA_EMAIL \
+--role roles/monitoring.metricWriter
+--role roles/logging.logWriter
+--role roles/monitoring.viewer
+
+# gcloud iam service-accounts add-iam-policy-binding \
+    test-proj1@example.domain.com \
+    --member='serviceAccount:test-proj1@example.domain.com' \
+    --role='roles/editor'
+
+# gcloud iam service-accounts add-iam-policy-binding \
+    my-iam-account@my-project.iam.gserviceaccount.com \
+    --member='user:test-user@gmail.com' \
+    --role='roles/iam.serviceAccountAdmin' \
+    --condition='expression=request.time < timestamp("2019-01-01T00:00:00Z"),title=expires_end_of_2018,description=Expires at midnight on 2018-12-31'
+
+
+########## To get IAM policy of SA ##########
+# gcloud iam service-accounts get-iam-policy \
+            my-iam-account@my-project.iam.gserviceaccount.com
+
+######## To get lis of SA's ##########
+# gcloud iam service-accounts list
+
+
+############ To create SM key ##############
+# gcloud secrets create sa-prd-sm-key \
+--replication-policy="automatic"
+
+###### To add SM secret value #############
+gcloud secrets versions add sa-prd-sm-key \
+--data-file=./json/sa-prd-app.json
+
