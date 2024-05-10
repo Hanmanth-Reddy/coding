@@ -46,3 +46,59 @@ https-health-checks
 
 network-endpoint-groups
 
+APPLICATION_NAME=example
+ENV= stg
+# gcloud compute health-checks update https https-basic-check-${APPLICATION_NAME}-ingress-${ENV} \
+  --use-serving-port \
+  --request-path=/healthz
+
+# gcloud compute backend-services create ${APPLICATION_NAME}-ingress-${ENV}-backend \
+--protocol HTTPS \
+--health-checks https-basic-check-${APPLICATION_NAME}-ingress-${ENV} \
+--global \
+--description="Backend for Example ingress (https)" \
+--session-affinity=CLIENT_IP \
+--global-health-checks  \
+--custom-request-header 'X-Client-Geo-Location:{client_region}' \
+--custom-request-header 'X-PLACE:{client_city_lat_long}' \
+--custom-request-header 'x-client-geo-region-city:{client_city}' \
+--custom-request-header 'X-Client-Geo-Region:{client_region_subdivision}' \
+--custom-request-header 'X-Client-TLS-Version:{tls_version}' \
+--custom-request-header 'X-Client-TLS-Chiper:{tls_cipher_suite}' \
+--custom-request-header 'X-Client-Hostname:{tls_sni_hostname}' \
+--custom-request-header 'X-Client-RTT:{client_rtt_msec}' \
+--enable-logging \
+--logging-sample-rate=1.0
+
+# gcloud compute backend-services update ${APPLICATION_NAME}-ingress-${ENV}-backend \
+  --security-policy cloud-armor-waf-policy-1 \
+  --global
+
+# gcloud compute url-maps create web-map-${APPLICATION_NAME}-ingress-${ENV} \
+  --default-service ${APPLICATION_NAME}-ingress-${ENV}-backend \
+  --global
+
+# gcloud compute target-https-proxies create https-lb-proxy-${APPLICATION_NAME}-ingress-${ENV} \
+  --url-map web-map-${APPLICATION_NAME}-ingress-${ENV} \
+  --ssl-certificates=cert-${ENV}-frontend-1 \
+  --ssl-policy=sslpolicy-app-1 \
+  --global \
+  --global-ssl-certificates
+  --quic-override=ENABLE
+
+# gcloud compute forwarding-rules create https-forwarding-rule-${APPLICATION_NAME}-ingress-${ENV} \
+  --address=ip-${ENV}-cdc-frontend-1 \
+  --global \
+  --target-https-proxy=https-lb-proxy-${APPLICATION_NAME}-ingress-${ENV} \
+  --ports=443 \
+  --ip-protocol=TCP
+
+R1_ZONE1=us-east1-c
+# gcloud compute network-endpoint-groups list
+#gcloud compute network-endpoint-groups list-network-endpoints $ISTIO_NEG_1 \
+    --zone=$R1_ZONE1
+#gcloud compute backend-services add-backend ${APPLICATION_NAME}-ingress-${ENV}-backend \
+   --global \
+   --network-endpoint-group $ISTIO_NEG_1 \
+   --network-endpoint-group-zone $R1_ZONE1 \
+   --balancing-mode RATE --max-rate-per-endpoint 50
