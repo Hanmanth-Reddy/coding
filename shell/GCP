@@ -16,6 +16,12 @@ firewall-rules
 routers
 routes
 
+REGION=use-east1
+SUB_NETWORK=vpc0-nw-sub0
+#gcloud compute addresses create "ip-prd-app-1" \
+    --addresses 192.168.199.139 \
+    --region $REGION \
+    --subnet $SUB_NETWORK
 
 ############# SSL  ####################
 ssl-certificates
