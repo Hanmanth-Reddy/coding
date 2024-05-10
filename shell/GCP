@@ -1,0 +1,48 @@
+gcloud compute --help
+
+
+###### Cloud Armor security policies ############
+security-policies
+
+####### Networks #######
+addresses
+
+networks
+network-firewall-policies
+
+firewall-policies
+firewall-rules
+
+routers
+routes
+
+
+############# SSL  ####################
+ssl-certificates
+ssl-policies
+
+
+############# Load Balancers ########################
+Forwarding-rules --> target-https-proxy --> URL-Maps ---> BAckend services 
+
+forwarding-rules
+
+target-grpc-proxies
+target-http-proxies
+target-https-proxies
+target-instances
+target-pools
+target-ssl-proxies
+target-tcp-proxies
+
+url-maps
+
+backend-buckets
+backend-services
+
+health-checks
+http-health-checks
+https-health-checks
+
+network-endpoint-groups
+
