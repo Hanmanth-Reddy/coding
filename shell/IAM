@@ -1,43 +1,86 @@
+=================
+Roles
+=================
 
-########### To create service account #######
-# gcloud iam service-accounts create sa-prd-app \
---description="prd app SA" \
---display-name="sa-prd-app" \
---project=<project_id>  
+########  To list of roles
+gcloud iam roles list 
 
-####### To create SA key ##############
-# gcloud iam service-accounts keys create ./json/sa-prd-app.json \
---iam-account sa-prd-app@<project_id>.iam.gserviceaccount.com 
+######## To check list of permissions in role
+gcloud iam roles describe <role-name>
 
+######## To create custom role 
+gcloud iam roles create <customRoleName> --project=<my-project> \
+  --title="Custom Role" \
+  --description="A custom role with specific permissions" \
+  --permissions=storage.buckets.get,storage.objects.list
 
-######## To add roles to a SA ###################
-CLUSTER_ADMIN_SA_EMAIL=my-iam-account@my-project.iam.gserviceaccount.com
-PROJECT=my-project-id
-# gcloud projects add-iam-policy-binding $PROJECT \
+######## To update Custom role 
+gcloud iam roles update customRoleName --project=my-project \
+  --add-permissions=storage.objects.delete \
+  --remove-permissions=storage.objects.list
+
+========================
+Projects
+=========================
+####### To get list of projects 
+gcloud projects list
+
+####### To get/check all policies of a project
+gcloud projects get-iam-policies <project-id> --format=json
+
+####### To assign custom role to the principal/indentity/
+ gcloud projects add-iam-policy-binding my-project \
+  --member=user:user@example.com \
+  --role=projects/my-project/roles/customRoleName
+
+###### To assign roles to a group 
+gcloud projects add-iam-policy-binding my-project \
+  --member=group:group@example.com \
+  --role=roles/viewer
+
+##### To assign roles to SA
+gcloud projects add-iam-policy-binding $PROJECT \
 --member serviceAccount:$CLUSTER_ADMIN_SA_EMAIL \
 --role roles/monitoring.metricWriter
 --role roles/logging.logWriter
 --role roles/monitoring.viewer
 
-# gcloud iam service-accounts add-iam-policy-binding \
+
+==================================
+Service Account 
+===============================
+
+########### To create service account 
+# gcloud iam service-accounts create sa-prd-app \
+--description="prd app SA" \
+--display-name="sa-prd-app" \
+--project=<project_id>  
+
+####### To create SA key
+# gcloud iam service-accounts keys create ./json/sa-prd-app.json \
+--iam-account sa-prd-app@<project_id>.iam.gserviceaccount.com 
+
+######## To add roles to a SA 
+CLUSTER_ADMIN_SA_EMAIL=my-iam-account@my-project.iam.gserviceaccount.com
+PROJECT=my-project-id
+
+gcloud iam service-accounts add-iam-policy-binding \
     test-proj1@example.domain.com \
     --member='serviceAccount:test-proj1@example.domain.com' \
     --role='roles/editor'
 
-# gcloud iam service-accounts add-iam-policy-binding \
+gcloud iam service-accounts add-iam-policy-binding \
     my-iam-account@my-project.iam.gserviceaccount.com \
     --member='user:test-user@gmail.com' \
     --role='roles/iam.serviceAccountAdmin' \
     --condition='expression=request.time < timestamp("2019-01-01T00:00:00Z"),title=expires_end_of_2018,description=Expires at midnight on 2018-12-31'
 
-
-########## To get IAM policy of SA ##########
+########## To get IAM policy of SA 
 # gcloud iam service-accounts get-iam-policy \
             my-iam-account@my-project.iam.gserviceaccount.com
 
-######## To get lis of SA's ##########
+######## To get lis of SA's 
 # gcloud iam service-accounts list
-
 
 ############ To create SM key ##############
 # gcloud secrets create sa-prd-sm-key \
@@ -47,3 +90,9 @@ PROJECT=my-project-id
 gcloud secrets versions add sa-prd-sm-key \
 --data-file=./json/sa-prd-app.json
 
+
+===================
+Organizations
+====================
+gcloud organizations list 
+gcloud resource-manager folders list --organization=<organization-id>
