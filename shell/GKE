@@ -1,0 +1,99 @@
+export PROJECT_ID=`gcloud config get-value project` && \
+export CLUSTER_DOMAIN="example" && \
+export M_TYPE=e2-custom-10-15360 && \
+export DISK_SIZE=100 && \
+export REGION=us-east1 && \
+export GCP_REGION=r1 && \
+export ENV=prd && \
+export REPOSITORY=test && \
+export PARENT_APPLICATION_NAME=test && \
+export APPLICATION_NAME=test && \
+export SERVICE_TYPE=doc-search && \
+export LABEL_PROJECT="test-$ENV" && \
+# export NETWORK="nw-${ENV}-vpc-0" && \
+# export SUB_NETWORK="${NETWORK}-${REGION}-subnet-0" && \
+export NETWORK="nw-${ENV}-vpc-0" && \
+export SUB_NETWORK="${NETWORK}-${REGION}-subnet-0"
+export MASTER_IP_CIDR="" && \
+export POD_IP_CIDR_NAME="${ENV}-${REGION}-k8s-${CLUSTER_DOMAIN}-${ENV}-pods-0" && \
+export SERVICES_IP_CIDR_NAME="${ENV}-${REGION}-k8s-${CLUSTER_DOMAIN}-${ENV}-services-0" && \
+export CLUSTER_NAME="k8s-${CLUSTER_DOMAIN}-${ENV}-${GCP_REGION}" && \
+export MAINTENANCE_WINDOW_START="2023-08-20T08:30:00Z" && \
+export MAINTENANCE_WINDOW_END="2023-08-21T08:30:00Z" && \
+export NUM_NODES="4" && \
+export MIN_NODES="4" && \
+export MAX_NODES="5" && \
+export MAX_PODS_NODES="36" && \
+export MAINTENANCE_WINDOW_RECURRENCE="FREQ=WEEKLY;BYDAY=TU,WE"
+export ENC_KEY_RING=${ENC_KEY_RING} && \
+export ENC_KEY=${ENC_KEY} && \
+export BIG_QUERY_USAGE_DB="bq_${ENV}_platform_gke" && \
+export ZONE1="us-east1-c" && \
+export ZONE2="us-east1-d" && \
+export ZONE3="us-east1-b" && \
+export TAGS=${CLUSTER_DOMAIN} && \
+export DEFAULT_NODE_POOL_LABEL=default && \
+export NODE_GPU_COUNT=1 && \
+export SPINNAKER_NAT_IP= && \
+export GPU="--accelerator type=nvidia-tesla-t4,count=${NODE_GPU_COUNT}" && \
+export IMAGE_TYPE="COS_CONTAINERD"
+
+
+gcloud beta container \
+--project $PROJECT_ID \
+clusters create $CLUSTER_NAME \
+--region $REGION \
+--no-enable-basic-auth \
+--release-channel "stable" \
+--machine-type $M_TYPE \
+--image-type $IMAGE_TYPE \
+--disk-type "pd-ssd" \
+--disk-size $DISK_SIZE \
+--node-labels environment=$ENV,repository=$REPOSITORY,servicetype=$SERVICE_TYPE,parentapplicationname=$PARENT_APPLICATION_NAME,applicationname=$APPLICATION_NAME,project=$LABEL_PROJECT,region=$REGION \
+--metadata disable-legacy-endpoints=true \
+--scopes "https://www.googleapis.com/auth/devstorage.read_only","https://www.googleapis.com/auth/logging.write","https://www.googleapis.com/auth/monitoring","https://www.googleapis.com/auth/servicecontrol","https://www.googleapis.com/auth/service.management.readonly","https://www.googleapis.com/auth/trace.append","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudkms","gke-default" \
+--max-pods-per-node $MAX_PODS_NODES \
+--num-nodes $NUM_NODES \
+--enable-private-nodes \
+--master-ipv4-cidr $MASTER_IP_CIDR \
+--enable-ip-alias \
+--network "projects/$PROJECT_ID/global/networks/$NETWORK" \
+--subnetwork "projects/$PROJECT_ID/regions/$REGION/subnetworks/$SUB_NETWORK" \
+--enable-autoscaling \
+--min-nodes $MIN_NODES \
+--max-nodes $MAX_NODES \
+--logging=SYSTEM,WORKLOAD  \
+--monitoring=SYSTEM  \
+--enable-network-policy \
+--enable-master-authorized-networks \
+--master-authorized-networks a.b.c.d/n \
+--addons HorizontalPodAutoscaling,HttpLoadBalancing,NodeLocalDNS,GcePersistentDiskCsiDriver,ConfigConnector,BackupRestore,GcpFilestoreCsiDriver \
+--enable-autoupgrade \
+--enable-autorepair \
+--max-surge-upgrade 1 \
+--max-unavailable-upgrade 0 \
+--maintenance-window-start $MAINTENANCE_WINDOW_START \
+--maintenance-window-end $MAINTENANCE_WINDOW_END \
+--maintenance-window-recurrence $MAINTENANCE_WINDOW_RECURRENCE \
+--labels mesh_id=proj-$PROJECT_NUMBER,environment=$ENV,repository=$REPOSITORY,servicetype=$SERVICE_TYPE,parentapplicationname=$PARENT_APPLICATION_NAME,applicationname=$APPLICATION_NAME,component=k8s,clientcomponents=k8s,project=$PROJECT,region=$REGION \
+--database-encryption-key projects/$PROJECT_ID/locations/$REGION/keyRings/$ENC_KEY_RING/cryptoKeys/$ENC_KEY \
+--enable-vertical-pod-autoscaling \
+--resource-usage-bigquery-dataset $BIG_QUERY_USAGE_DB \
+--enable-network-egress-metering \
+--enable-resource-consumption-metering \
+--workload-pool=$PROJECT_ID.svc.id.goog \
+--workload-metadata=GKE_METADATA \
+--node-locations $ZONE1,$ZONE2 \
+--tags=k8s-$ENV,$CLUSTER_NAME,$TAGS,$REGION-$ENV,$APPLICATION_NAME,$DEFAULT_NODE_POOL_LABEL \
+--cluster-secondary-range-name $POD_IP_CIDR_NAME \
+--services-secondary-range-name $SERVICES_IP_CIDR_NAME \
+--enable-master-global-access \
+--enable-shielded-nodes \
+--no-issue-client-certificate \
+--no-enable-intra-node-visibility \
+--location-policy "BALANCED" \
+--enable-l4-ilb-subsetting  \
+--notification-config=pubsub=ENABLED,pubsub-topic=projects/$PROJECT_ID/topics/ps-topic-$ENV-gke-cluster-notification,filter="UpgradeEvent"  \
+--enable-image-streaming \
+--enable-managed-prometheus \
+--service-account=$NODE_SA_EMAIL \
