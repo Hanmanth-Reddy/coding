@@ -97,3 +97,45 @@ clusters create $CLUSTER_NAME \
 --enable-image-streaming \
 --enable-managed-prometheus \
 --service-account=$NODE_SA_EMAIL \
+
+
+
+
+####### node pool
+
+export APPLICATION_NAME=example && \
+export M_TYPE=e2-custom-8-24576 && \
+export NUM_NODES="1" && \
+export MIN_NODES="1" && \
+#export MAX_NODES="4" && \
+export MAX_NODES="100" && \
+export DISK_SIZE="200" && \
+export NODE_POOL_TAINT=work && \
+export NODE_POOL_LABEL=${NODE_POOL_TAINT}-${APPLICATION_NAME} && \
+export NODE_POOL_NAME=${ENV}-${NODE_POOL_LABEL} && \
+export NODE_TAINTS=workload-type=${NODE_POOL_LABEL}:NoSchedule && \
+export SERVICE_TYPE=ai-doc-search && \
+gcloud container node-pools create $NODE_POOL_NAME \
+--cluster=$CLUSTER_NAME \
+--region $REGION \
+--machine-type $M_TYPE \
+--image-type $IMAGE_TYPE \
+--disk-type "pd-ssd" \
+--disk-size $DISK_SIZE \
+--node-labels environment=$ENV,repository=$REPOSITORY,servicetype=$SERVICE_TYPE,parentapplicationname=$PARENT_APPLICATION_NAME,applicationname=$APPLICATION_NAME,component=k8snode,clientcomponents=k8sproject=$LABEL_PROJECT,region=$REGION,node_label=$NODE_POOL_LABEL \
+--metadata disable-legacy-endpoints=true \
+--scopes "https://www.googleapis.com/auth/devstorage.read_only","https://www.googleapis.com/auth/logging.write","https://www.googleapis.com/auth/monitoring","https://www.googleapis.com/auth/servicecontrol","https://www.googleapis.com/auth/service.management.readonly","https://www.googleapis.com/auth/trace.append","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudkms","gke-default" \
+--max-pods-per-node $MAX_PODS_NODES \
+--num-nodes $NUM_NODES \
+--enable-autoscaling \
+--min-nodes $MIN_NODES \
+--max-nodes $MAX_NODES \
+--enable-autoupgrade \
+--enable-autorepair \
+--max-surge-upgrade 1 \
+--max-unavailable-upgrade 0 \
+--workload-metadata=GKE_METADATA \
+--node-locations $ZONE1,$ZONE2 \
+--tags=k8s-$ENV,$CLUSTER_NAME,$TAGS,$APPLICATION_NAME,$NODE_POOL_TAINT,$NODE_POOL_LABEL,$REGION-$ENV,$SERVICE_TYPE \
+--node-taints $NODE_TAINTS \
+--service-account=$NODE_SA_EMAIL \
