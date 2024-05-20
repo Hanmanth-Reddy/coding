@@ -2,6 +2,9 @@
 1) IAP
 2) Bastion host
 
+ gcloud compute firewall-rules create --network=NETWORK \
+            default-allow-ssh --allow=tcp:22
+
 ####### To ssh a VM
 gcloud config set project <project-id>
 gcloud compute ssh <vm>
