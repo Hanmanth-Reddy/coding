@@ -1,15 +1,24 @@
+####### To ssh without external IP
+1) IAP
+2) Bastion host
+
 ####### To ssh a VM
 gcloud config set project <project-id>
 gcloud compute ssh <vm>
 [or]
 gcloud compute ssh <vm-name> --zone <zone> --project=projectid
 
+###### To troubleshoot the ssh issues 
+gcloud compute ssh <vm-name> --zone <zone>  --project=<project-id> --troubleshoot
 
-### To troubleshoot the ssh issues 
-gcloud compute ssh <vm-name> --zone <zone>  --project=<project-id>
 
-######### if public ip is not enabled ###########
-gcloud compute ssh vm
+######### IAP ###########
+1) enable IAP in Api & Services
+2) Add firewall rule to allow IAP to VM
+   VPC n/w >> firewall >> Add firewall rule
+3) Add IAP permission to user (IAM secured tunnel user)
+
+gcloud compute ssh <vm>
 
 
 
