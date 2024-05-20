@@ -1,0 +1,19 @@
+####### To ssh a VM
+gcloud config set project <project-id>
+gcloud compute ssh <vm>
+[or]
+gcloud compute ssh <vm-name> --zone <zone> --project=projectid
+
+
+### To troubleshoot the ssh issues 
+gcloud compute ssh <vm-name> --zone <zone>  --project=<project-id>
+
+######### if public ip is not enabled ###########
+gcloud compute ssh vm
+
+
+
+
+
+
+
