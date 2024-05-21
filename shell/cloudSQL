@@ -17,3 +17,17 @@ connect using private
 
 
 ############## Using External IP/ Authorized network #########
+1) Cloud sql auth proxy
+2) Using authorized networks
+
+### Cloud sql auth proxy 
+Will work without authorized n/w & ssl connection 
+
+1) download cloud-sql-proxy binary and run following command
+./cloud-sql-proxy.exe <instance-connection>
+2) Connect from mysql workbenches
+
+### Using authorized network
+1) Add your IP to authorized networks 
+2) Connect from mysql workbenches 
+
