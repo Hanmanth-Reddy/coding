@@ -1,0 +1,19 @@
+############### Using Private SQL instance ##################
+connect using private 
+                      1) Linux VM
+                      2) Windows VM
+
+### Linux VM
+1) ssh into VM 
+2) install mysql client if not installed
+3) connect to mysql server using mysql -h <ip/hostname> -u <user> -p
+
+### Windows VM
+1) Enable RDP tunneling to connect windows 
+                        gcloud compute start-iap-tunnel my-instance 3389
+                        gcloud compute start-iap-tunnel my-instance 3389 --local-host-port=localhost:3333
+2) Install mysql workbench , if internet is not there, setup a NAT
+3) Connect to sql server from mysql workbench.
+
+
+############## Using External IP/ Authorized network #########
