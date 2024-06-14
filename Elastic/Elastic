@@ -42,3 +42,12 @@ POST /_snapshot/<repository>/<snapshot>/_restore?wait_for_completion=false
   "include_global_state": false,
   "include_aliases": false
 }
+
+
+To get list of Search Templates
+---------------------------------
+GET _cluster/state/metadata?pretty&filter_path=metadata.stored_scripts.search_template1,metadata.stored_scripts.search_template2
+
+To get index temaples
+----------------------
+GET _cat/templates
