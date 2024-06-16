@@ -1,6 +1,28 @@
 
 which [command]
 
+Process management
+==================
+ps 
+ps -ef 
+ps -e -o col1,col2,col3
+ps -e -o col1, col2, col3 --sort=-cpu,mem
+
+ps -e -C httpd
+
+nice 
+bg
+fg %
+
+jobs
+
+pgrep -u elastic ssh
+
+kill -l
+kill -9
+
+Systemd
+========
 
 Package management
 ====================
@@ -205,3 +227,6 @@ Sudoers mgmt
 Speacial Commands
 ==================
 truncate --size=100M filename.txt
+
+Archive & Compress 
+==================
