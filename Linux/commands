@@ -65,8 +65,8 @@ Memory
 free -g
 
 
-Disk
-======
+Disk Management 
+================
 xfs_info /apps/data/elastic
 lsblk --json -o NAME,RA,MOUNTPOINT,TYPE,TRAN,SIZE,MIN-IO,FSTYPE`
 lsblk -o NAME,RA,MOUNTPOINT,TYPE,TRAN,SIZE,MIN-IO,FSTYPE
@@ -97,10 +97,10 @@ journalctl -xe
 
 OS info
 ===========
-/etc/os-release
-/etc/redhat-release
-/etc/system-release
-
+cat /etc/os-release
+cat /etc/redhat-release
+cat /etc/system-release
+cat /etc/*-release
 
 Processes 
 ============
@@ -151,7 +151,7 @@ curl -k -u user:password -XPOST  -H "Authorization: Bearer Token" -H "Content-Ty
 
 
 Debug
-===========
+========
 lsof
 ulimit -n 
 /etc/security/limits.conf
