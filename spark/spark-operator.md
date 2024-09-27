@@ -27,6 +27,7 @@ helm install volcano volcano-sh/volcano -n volcano-system --create-namespace
 
 ## Create spark ServiceAccount
 
+```yaml
 ---
 apiVersion: v1
 kind: ServiceAccount
