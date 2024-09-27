@@ -24,6 +24,12 @@ helm repo update
 
 helm install volcano volcano-sh/volcano -n volcano-system --create-namespace
 
+## Clone kubeflow/spark-operator git repo & build sparkctl command
+git clone https://github.com/kubeflow/spark-operator.git
+cd spark-operator/sparkctl
+
+go build -o sparkctl
+
 
 ## Create spark ServiceAccount
 
@@ -61,11 +67,4 @@ roleRef:
   kind: Role
   name: spark-role
   apiGroup: rbac.authorization.k8s.io
-  
-  
-## Clone kubeflow/spark-operator git repo & build sparkctl command
-git clone https://github.com/kubeflow/spark-operator.git
-cd spark-operator/sparkctl
 
-
-go build -o sparkctl
