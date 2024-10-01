@@ -9,10 +9,10 @@ helm repo update
 helm install spark-operator spark-operator/spark-operator \
     --namespace spark-operator \
     --create-namespace \
-    --set webhook.enable=true
-	--set batchScheduler.enable=true
-	//--set operatorImageName=spark-operator/spark-operator
-	//--set "sparkJobNamespaces={test-ns}"
+    --set webhook.enable=true \
+    --set batchScheduler.enable=true
+    //--set operatorImageName=spark-operator/spark-operator
+    //--set "sparkJobNamespaces={test-ns}"
 
 
 # Volcano:
