@@ -1,13 +1,12 @@
-
-# Prerequisites
-## ========== forwarding IPv4 and letting iptables see bridged traffic ========
-## Add modules
+## Add modules to forwarding IPv4 and letting iptables see bridged traffic
+```bash
 cat > /etc/modules-load.d/containerd.conf <<EOF
 overlay
 br_netfilter
 EOF
 
 ## To load modules
+```bash
 modprobe overlay
 modprobe br_netfilter
 
