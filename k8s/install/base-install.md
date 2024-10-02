@@ -1,6 +1,6 @@
 
 # Prerequisites
-# ========== forwarding IPv4 and letting iptables see bridged traffic ========
+## ========== forwarding IPv4 and letting iptables see bridged traffic ========
 ## Add modules
 cat > /etc/modules-load.d/containerd.conf <<EOF
 overlay
