@@ -1,13 +1,10 @@
 ## Add modules to forwarding IPv4 and letting iptables see bridged traffic
-**
 cat > /etc/modules-load.d/containerd.conf <<EOF
 overlay
 br_netfilter
 EOF
-**
 
 ## To load modules
-```bash
 modprobe overlay
 modprobe br_netfilter
 
@@ -34,7 +31,7 @@ sysctl net.bridge.bridge-nf-call-iptables net.bridge.bridge-nf-call-ip6tables ne
 
 
 
-## ============ Disable seLinux, iptables and firewall ===========
+## To Stop,Disable& mask seLinux, iptables and firewall services
 setenforce 0
 sed -i 's/SELINUX=enforcing/SELINUX=disabled/' /etc/selinux/config
 
@@ -48,9 +45,76 @@ systemctl stop firewalld
 systemctl mask firewalld
 
 
-## =============== ToDisable Swap =============================
+##  To Disable Swap
 swapoff -a
 sed -i '/swap/ s/^/#/' /etc/fstab
+
+
+
+
+## NOTE :
+There are two cgroup drivers available:
+cgroupfs
+systemd
+
+kubelet and container runtime directly interface with the cgroup filesystem to configure cgroups
+So kubelet and the container runtime must use same cgroup
+
+Check you init system by using 
+#ps -p 1
+
+
+<h1>Container Runtimes</h1>  
+
+## Containerd
+https://docs.docker.com/engine/install/rhel/
+
+sudo yum install -y yum-utils
+sudo yum-config-manager --add-repo https://download.docker.com/linux/rhel/docker-ce.repo
+
+sudo yum install containerd.io
+
+containerd config default > /etc/containerd/config.toml
+
+sudo sed -i 's/SystemdCgroup \= false/SystemdCgroup \= true/g' /etc/containerd/config.toml
+
+sudo systemctl restart containerd
+
+
+## Docker
+sudo yum install -y yum-utils
+sudo yum-config-manager --add-repo https://download.docker.com/linux/rhel/docker-ce.repo
+
+sudo yum install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+sudo systemctl start docker
+
+## Container Runtime Interface - Open (CRI-O)
+Install Crio package.
+
+vim /etc/crio/crio.conf [OR] vim /etc/crio/crio.conf.d/02-cgroup-manager.conf
+[crio.runtime]
+conmon_cgroup = "pod"
+cgroup_manager = "cgroupfs"
+
+[crio.image]
+pause_image="registry.k8s.io/pause:3.6"
+
+
+systemctl reload crio
+systemctl restart crio
+
+
+
+## Mirantis
+
+
+
+
+
+
+
+
+
 
 
 
@@ -127,7 +191,14 @@ systemctl enable containerd
 systemctl restart containerd
 
 
+
+
+## CRI-O (Container runtime interface - open)
+## Mirantis 
+
 ========================================= Install Kubernetes packages ======================================================
+
+## Add Yum Repo 
 cat <<EOF | sudo tee /etc/yum.repos.d/kubernetes.repo
 [kubernetes]
 name=Kubernetes
@@ -138,7 +209,7 @@ gpgkey=https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
 exclude=kubelet kubeadm kubectl
 EOF
 
-
+## Install kubeadm, kubelet & kubelet 
 yum install -y kubelet-1.19.14-0 kubeadm-1.19.14-0 kubectl-1.19.14-0 --disableexcludes=kubernetes
 yum versionlock add kubectl kubelet kubeadm
 
@@ -154,13 +225,3 @@ systemctl restart kubelet
 
 
 
-==================================================================================================================================================
-There are two cgroup drivers available:
-cgroupfs
-systemd
-
-the kubelet and the container runtime directly interface with the cgroup filesystem to configure cgroups, so make sure both running in same using SAME CGROUPFS
-the kubelet and the container runtime directly interface with the cgroup filesystem to configure cgroups.
-
-Check you init system by using 
-#ps -p 1
