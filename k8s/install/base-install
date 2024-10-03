@@ -197,21 +197,25 @@ systemctl restart containerd
 ## Mirantis 
 
 ========================================= Install Kubernetes packages ======================================================
-
 ## Add Yum Repo 
 cat <<EOF | sudo tee /etc/yum.repos.d/kubernetes.repo
 [kubernetes]
 name=Kubernetes
-baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-\$basearch
+baseurl=https://pkgs.k8s.io/core:/stable:/v1.31/rpm/
 enabled=1
 gpgcheck=1
-gpgkey=https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
-exclude=kubelet kubeadm kubectl
+gpgkey=https://pkgs.k8s.io/core:/stable:/v1.31/rpm/repodata/repomd.xml.key
+exclude=kubelet kubeadm kubectl cri-tools kubernetes-cni
 EOF
 
+
 ## Install kubeadm, kubelet & kubelet 
-yum install -y kubelet-1.19.14-0 kubeadm-1.19.14-0 kubectl-1.19.14-0 --disableexcludes=kubernetes
-yum versionlock add kubectl kubelet kubeadm
+#yum install -y kubelet-1.19.14-0 kubeadm-1.19.14-0 kubectl-1.19.14-0 --disableexcludes=kubernetes
+#yum versionlock add kubectl kubelet kubeadm
+sudo yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
+sudo systemctl enable --now kubelet
+
+
 
 
 cat <<EOF >> /etc/sysconfig/kubelet
