@@ -1,8 +1,9 @@
 
 which [command]
 
+==========================================================
 Process management
-==================
+==========================================================
 ps 
 ps -ef 
 ps -e -o col1,col2,col3
@@ -21,20 +22,23 @@ pgrep -u elastic ssh
 kill -l
 kill -9
 
-Systemd
-========
+pkill -9 <executable>
 
+Systemd
+--------
+
+======================================================
 Package management
-====================
+======================================================
 rpm -qa 
 
 rpm -ql [package name]
 rpm -qf [binary/filename]
 
 
-
+====================================================
 Access Control
-===============
+====================================================
 chmod
 4 2 1
 u g o ,   r w x 
@@ -49,8 +53,9 @@ getfacl --access /data | setfacl -d -M- /db
 getfacl /data/file1 | setfacl --set-file=- /test"
 
 
+============================================
 CPU
-===========
+===========================================
 sar
 sar -q 1 1  //sar-load-average-sampled.txt
 sar -S 1 1  //sar-swap-sampled.txt
@@ -59,14 +64,15 @@ sar -d -p 1 5  //sar-devices.txt
 sar -r 1 5  //sar-memory-sampled.txt
 sar -n DEV  //sar-network.txt
 
-
+============================================
 Memory
-=========
+=============================================
 free -g
 
 
+=======================================================
 Disk Management 
-================
+======================================================
 xfs_info /apps/data/elastic
 lsblk --json -o NAME,RA,MOUNTPOINT,TYPE,TRAN,SIZE,MIN-IO,FSTYPE`
 lsblk -o NAME,RA,MOUNTPOINT,TYPE,TRAN,SIZE,MIN-IO,FSTYPE
@@ -110,14 +116,14 @@ top -b -n1 -H    //top-threads.txt
 find /proc -maxdepth 1 -type d -name '[0-9]*' -exec cat {}/status \; | grep <process_name>
 
 
-
+=========================================================
 Networking
-==============
-ping
+=========================================================
+ping -c 4 <IP>
 telnet <domian/ip> <port>
 nc -vz <domain/ip> <port>
 
-ifconfig 
+ifconfig
 ip addr show 
 ip rule show
 ip -s link show
@@ -149,9 +155,37 @@ curl -k -u user:password -XPOST  -H "Authorization: Bearer Token" -H "Content-Ty
 /etc/systemconfig 
 /etc/systemconfig/network-scripts
 
+## Show Files Opened by a Specific Network Address
+lsof -i @<IP_address>
 
+## Show IPv4 or IPv6 Connections Only
+lsof -i 4
+lsof -i 6
+
+## List Open Files by a Specific User
+lsof -u <username>
+
+## List Files Opened by a Specific Program/Executable
+lsof -c <command>
+
+## Find Processes Using a Specific Port
+sudo lsof -i :6443
+
+## List Open Files by Network Protocol
+lsof -i tcp
+lsof -i udp
+
+Find Files Opened by a Specific Directory/Mount Point or File System/Specific Device
+lsof +D /path/to/directory
+lsof /mnt/data
+lsof /dev/sda1
+
+
+nmap -p 1-65535 <IP or hostname>
+
+=====================================
 Debug
-========
+=====================================
 lsof
 ulimit -n 
 /etc/security/limits.conf
