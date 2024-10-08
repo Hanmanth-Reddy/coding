@@ -1,0 +1,36 @@
+Ingress -- Gateway 
+Egress -- ServiceEntry 
+VirtualService
+DestinationRules
+
+Traffic Routing:
+	Header-based routing:
+	Path-based routing:
+	Weight-based routing:
+
+Fault Injection
+timeouts 
+retries 
+Fallback 
+circuit breaker
+
+Traffic Management
+
+Load Balancing: Round Robin is the default load balancing algorithm in Istio.You don’t need to explicitly define it because Istio uses it by default.you can configure load balancing algorithms and session affinity in the DestinationRule resource.
+	Round Robin (default)
+	Least Connection
+	Random
+	Weighted Least Request
+Session Affinity:
+Traffic Shifting:
+Traffic Mirroring:
+
+Security:
+Mutual TLS (mTLS)
+Service-to-Service Authentication
+Authorization (RBAC)
+
+5. Policy Enforcement
+	Quota Management:
+	Traffic Control Policies: You can set policies for circuit breakers, outlier detection, and other service-level policies
+	Request Routing: You can control traffic flows, prioritize traffic, or limit access to certain endpoints.
