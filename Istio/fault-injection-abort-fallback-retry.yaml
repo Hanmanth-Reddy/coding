@@ -1,0 +1,24 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: my-service
+spec:
+  hosts:
+  - my-service
+  http:
+  - route:
+    - destination:
+        host: my-service
+      weight: 100                # Primary route, 100% traffic goes to this service
+    - destination:
+        host: my-fallback-service
+      weight: 0                  # Fallback service
+  fault:
+    abort:
+      percentage:
+        value: 20                # Simulate a failure in 20% of the requests
+      httpStatus: 503            # Return HTTP 503 for failed requests
+  retries:
+    attempts: 3
+    perTryTimeout: 2s
+  timeout: 5s

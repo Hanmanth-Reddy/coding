@@ -1,0 +1,15 @@
+Purpose of Fault Injection in Testing Resilience:
+In real-world distributed systems, services fail in many ways — slow responses, network issues, or complete failures. 
+Fault injection simulates these failures deliberately, so you can see how your system reacts to them before they happen in production.
+
+
+By injecting faults (like delays or errors/aborts) into a service, you can observe how dependent services react, 
+and validate the mechanisms designed to make your system resilient, such as:
+
+Retries: Does the frontend retry if the backend is slow or fails?
+Fallbacks: Does the frontend have a fallback if the backend is down? Does it handle the error gracefully (e.g., fallback data/serve cached data [OR] return a default response [OR] error message)?
+Circuit Breakers: Does the frontend stop calling the backend when it's consistently failing?
+
+
+In the examples, the faults are injected into the backend service. However, we're testing the frontend service to see how it handles the backend being slow or failing. We want to ensure that the frontend doesn’t crash, hang, or pass the problem along to the user in a bad way (like showing error pages).
+

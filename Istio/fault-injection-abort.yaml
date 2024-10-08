@@ -1,0 +1,16 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: backend-fault-injection
+spec:
+  hosts:
+  - backend
+  http:
+  - route:
+    - destination:
+        host: backend
+    fault:
+      abort:
+        percentage:
+          value: 10.0               # Apply the fault to 10% of the requests
+        httpStatus: 500             # Simulate a 500 Internal Server Error

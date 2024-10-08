@@ -1,0 +1,13 @@
+---
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: my-service
+spec:
+  host: my-service
+  trafficPolicy:
+    outlierDetection:
+      consecutiveErrors: 7             # Break the circuit after 7 consecutive errors
+      interval: 5s                     # Check errors in a 5-second window
+      baseEjectionTime: 30s            # Eject the host for 30 seconds
+      maxEjectionPercent: 50           # Eject up to 50% of the hosts if they fail

@@ -1,0 +1,30 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: backend-service
+spec:
+  hosts:
+  - backend
+  http:
+  - route:
+    - destination:
+        host: backend
+    retries:
+      attempts: 2               # Retry twice on failure
+      perTryTimeout: 4s          # Timeout each retry after 4 seconds
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: backend-service
+spec:
+  hosts:
+  - backend
+  http:
+  - route:
+      - destination:
+          host: backend
+    timeout: 6s                 # Global timeout for the initial request (6 seconds)
+    retries:
+      attempts: 2               # Retry twice
+      perTryTimeout: 4s          # Each retry waits for 4 seconds

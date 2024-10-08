@@ -1,0 +1,16 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: backend-fault-injection
+spec:
+  hosts:
+  - backend
+  http:
+  - route:
+    - destination:
+        host: backend
+    fault:
+      delay:
+        percentage:
+          value: 50.0               # Apply the delay to 50% of the requests
+        fixedDelay: 5s              # Inject a fixed delay of 5 seconds

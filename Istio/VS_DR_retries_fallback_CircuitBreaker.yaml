@@ -1,0 +1,33 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: my-service
+spec:
+  hosts:
+  - my-service
+  http:
+  - route:
+    - destination:
+        host: my-service
+      weight: 80                    # 80% traffic to primary service
+    - destination:
+        host: my-fallback-service
+      weight: 20                    # 20% traffic to fallback service
+  retries:
+    attempts: 3                     # Retry up to 3 times
+    perTryTimeout: 2s               # Timeout for each retry is 2 seconds
+  timeout: 5s                       # Timeout for initial request is 5 seconds
+
+---
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: my-service
+spec:
+  host: my-service
+  trafficPolicy:
+    outlierDetection:
+      consecutiveErrors: 5           # Circuit breaks after 5 consecutive errors
+      interval: 10s                  # Errors measured over a 10-second window
+      baseEjectionTime: 60s          # Eject the host for 60 seconds
+      maxEjectionPercent: 100        # Eject all hosts if needed (complete fallback)
