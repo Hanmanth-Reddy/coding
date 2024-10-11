@@ -1,0 +1,32 @@
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: my-service
+spec:
+  hosts:
+  - my-service.default.svc.cluster.local
+  http:
+  - route:
+    - destination:
+        host: my-service
+        subset: v1           # Send 90% of traffic to v1
+      weight: 90
+    - destination:
+        host: my-service
+        subset: v2           # Send 10% of traffic to v2
+      weight: 10
+---
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: my-service
+spec:
+  host: my-service
+  subsets:
+  - name: v1
+    labels:
+      version: v1
+  - name: v2
+    labels:
+      version: v2

@@ -1,0 +1,42 @@
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: my-service
+spec:
+  host: my-service
+  subsets:
+    - name: v1
+      labels:
+        version: v1
+    - name: v2
+      labels:
+        version: v2
+---		
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: my-service
+spec:
+  hosts:
+  - my-service.default.svc.cluster.local
+  http:
+  - route:
+    - destination:
+        host: my-service
+        subset: v1
+      weight: 100            # 100% traffic to v1 (Blue)
+---
+## Once v2 is fully tested, shift all traffic to the green version (v2).
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: my-service
+spec:
+  hosts:
+  - my-service.default.svc.cluster.local
+  http:
+  - route:
+    - destination:
+        host: my-service
+        subset: v2
+      weight: 100            # 100% traffic to v2 (Green)
