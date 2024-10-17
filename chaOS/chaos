@@ -1,0 +1,9 @@
+Chaos engineering is the practice of intentionally introducing controlled failures or disruptions into a system to test its resilience, identify weaknesses, and ensure that it can withstand unexpected failures. Chaos engineering aims to uncover vulnerabilities before they impact users in production environments.
+
+Tools: Gremlin, Chaos Mesh, LitmusChaos, and Pumba
+
+Infrastructure Chaos
+Application-Level Chaos
+Network Chaos
+State Chaos
+Security Chaos
