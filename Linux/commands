@@ -4,12 +4,13 @@ which [command]
 ==========================================================
 Process management
 ==========================================================
-ps 
 ps -ef 
-ps -e -o col1,col2,col3
 ps -e -o col1, col2, col3 --sort=-cpu,mem
-
 ps -e -C httpd
+
+top -b -n1
+top -b -n1 -H    //top-threads.txt
+find /proc -maxdepth 1 -type d -name '[0-9]*' -exec cat {}/status \; | grep <process_name>
 
 nice 
 bg
@@ -24,8 +25,71 @@ kill -9
 
 pkill -9 <executable>
 
-Systemd
---------
+============================================
+CPU
+===========================================
+sar
+sar -q 1 1  //sar-load-average-sampled.txt
+sar -S 1 1  //sar-swap-sampled.txt
+sar -P ALL 1 5  //sar-cpu-cores.txt
+sar -d -p 1 5  //sar-devices.txt
+sar -r 1 5  //sar-memory-sampled.txt
+sar -n DEV  //sar-network.txt
+
+============================================
+Memory
+=============================================
+free -g
+
+swapoff -a 
+sed -i '/swap/ s/^/#/' /etc/fstab
+
+=======================================================
+Disk Management 
+======================================================
+xfs_info /apps/data/elastic
+mkfs.xfs /dev/sdb
+
+lsblk --json -o NAME,RA,MOUNTPOINT,TYPE,TRAN,SIZE,MIN-IO,FSTYPE`
+lsblk -o NAME,RA,MOUNTPOINT,TYPE,TRAN,SIZE,MIN-IO,FSTYPE
+fdis -l 
+cat /etc/fstab
+
+mount -a
+df -h
+du -sh 
+
+dd - data duplicator - used for copying and converting data between files and devices
+used for various tasks, including creating backups, cloning disks, and generating random data 
+dd if=input_file of=output_file // Copying Data from One File to Another
+dd if=/dev/sdX of=partition_image.img  //Creating a Backup or Disk Image
+dd if=/dev/sdX of=/dev/sdY bs=4M //Cloning Disk or Partitions
+dd if=/dev/urandom of=random_data.bin bs=1M count=10 // Creating Random Data
+dd if=input_file of=/dev/null bs=1M //Checking Disk or File Read Speed
+dd if=/dev/zero of=output_file bs=1M count=10 //Creating a File of a Specific Size
+
+
+
+
+=========================================================
+Systemd (Systemctl)
+=========================================================
+systemctl status <service-name>
+systemctl start <service-name>
+systemctl enable <service-name>
+systemctl mask <service-name>
+systemctl reload <service-name>  // Reload config without restart
+
+systemctl list-units  // To list active services, devices, mounts, etc.
+systemctl list-units --all // To list all including inactive 
+systemctl list-units --type=service
+
+
+systemctl cat docker.service
+ 
+journalctl -xe
+journalctl -u kubelet
+
 
 ======================================================
 Package management
@@ -34,6 +98,8 @@ rpm -qa
 
 rpm -ql [package name]
 rpm -qf [binary/filename]
+
+
 
 
 ====================================================
@@ -52,68 +118,33 @@ setfacl -m u:user1:--- /data
 getfacl --access /data | setfacl -d -M- /db
 getfacl /data/file1 | setfacl --set-file=- /test"
 
-
-============================================
-CPU
-===========================================
-sar
-sar -q 1 1  //sar-load-average-sampled.txt
-sar -S 1 1  //sar-swap-sampled.txt
-sar -P ALL 1 5  //sar-cpu-cores.txt
-sar -d -p 1 5  //sar-devices.txt
-sar -r 1 5  //sar-memory-sampled.txt
-sar -n DEV  //sar-network.txt
-
-============================================
-Memory
-=============================================
-free -g
-
-
-=======================================================
-Disk Management 
-======================================================
-xfs_info /apps/data/elastic
-lsblk --json -o NAME,RA,MOUNTPOINT,TYPE,TRAN,SIZE,MIN-IO,FSTYPE`
-lsblk -o NAME,RA,MOUNTPOINT,TYPE,TRAN,SIZE,MIN-IO,FSTYPE
-cat /etc/fstab
-
-mount
-df -h
-du -sh 
-
-dd - data duplicator - used for copying and converting data between files and devices
-used for various tasks, including creating backups, cloning disks, and generating random data 
-dd if=input_file of=output_file // Copying Data from One File to Another
-dd if=/dev/sdX of=partition_image.img  //Creating a Backup or Disk Image
-dd if=/dev/sdX of=/dev/sdY bs=4M //Cloning Disk or Partitions
-dd if=/dev/urandom of=random_data.bin bs=1M count=10 // Creating Random Data
-dd if=input_file of=/dev/null bs=1M //Checking Disk or File Read Speed
-dd if=/dev/zero of=output_file bs=1M count=10 //Creating a File of a Specific Size
-
-
-
-Systemctl 
-==========
-sysctl -a
-/etc/sysctl.conf 
-systemctl cat docker.service
-journalctl -xe
-
-
+==================================
 OS info
-===========
+==================================
 cat /etc/os-release
 cat /etc/redhat-release
 cat /etc/system-release
 cat /etc/*-release
 
-Processes 
-============
-ps -eaf
-top -b -n1
-top -b -n1 -H    //top-threads.txt
-find /proc -maxdepth 1 -type d -name '[0-9]*' -exec cat {}/status \; | grep <process_name>
+
+======================================================
+Kernel
+=======================================================
+                              // These settings affect how the Linux kernel interacts with hardware, memory, networking, etc.
+sysctl --system              // to load kernel params without reboot
+sysctl -a                    // To lists all available kernel parameters a
+sysctl net.bridge.bridge-nf-call-iptables net.bridge.bridge-nf-call-ip6tables net.ipv4.ip_forward    // To display specific kernel parameters
+
+/etc/sysctl.conf 
+
+modprobe overlay  // To laod a module 
+lsmod | grep overlay  // To list a loaded module
+
+
+uname -a
+dmesg --ctime        // displays kernel messages, helping you diagnose hardware and system-related issues.
+
+timedatectl
 
 
 =========================================================
@@ -155,33 +186,33 @@ curl -k -u user:password -XPOST  -H "Authorization: Bearer Token" -H "Content-Ty
 /etc/systemconfig 
 /etc/systemconfig/network-scripts
 
-## Show Files Opened by a Specific Network Address
-lsof -i @<IP_address>
 
-## Show IPv4 or IPv6 Connections Only
-lsof -i 4
+lsof -i @<IP_address>  //To Show Files Opened by a Specific Network Address
+
+lsof -i 4  // Show IPv4 or IPv6 Connections Only
 lsof -i 6
 
-## List Open Files by a Specific User
-lsof -u <username>
+lsof -u <username>  // List Open Files by a Specific User
+lsof -c <command> // List Files Opened by a Specific Program/Executable
+sudo lsof -i :6443 //Find Processes Using a Specific Port
 
-## List Files Opened by a Specific Program/Executable
-lsof -c <command>
-
-## Find Processes Using a Specific Port
-sudo lsof -i :6443
-
-## List Open Files by Network Protocol
-lsof -i tcp
+lsof -i tcp  //List Open Files by Network Protocol
 lsof -i udp
 
-Find Files Opened by a Specific Directory/Mount Point or File System/Specific Device
-lsof +D /path/to/directory
+lsof +D /path/to/directory  //Find Files Opened by a Specific Directory/Mount Point or File System/Specific Device
 lsof /mnt/data
 lsof /dev/sda1
 
 
-nmap -p 1-65535 <IP or hostname>
+nmap -p 1-65535 <IP or hostname>  [OR] nmap -p-  <IP or hostname>  -oN scan_results.txt
+
+nmap -p- 192.168.1.1-254  // Scan all ports on range/multiple of IP
+nmap -p- 192.168.1.1 192.168.1.2 192.168.1.3
+nmap -p- 192.168.1.0/24
+
+nmap -p 1-1000 <target_ip_or_hostname>   //Scan range of ports
+
+nmap -sS -sU -p- <target_ip_or_hostname>  //Scan both TCP & UDP ports
 
 =====================================
 Debug
@@ -204,8 +235,10 @@ ltrace
 
 watch -n 1 'command'
 
+
+=====================
 proc
-=======
+=============================
 cat /proc/sys/crypto/fips-enabled
 /proc/[PID]/status
 cat /proc/cmdline
@@ -215,13 +248,6 @@ cat /proc/cmdline
 /proc/loadavg
 /proc/sys/fs/file-max
 
-
-Kernel
-========
-uname -a
-dmesg --ctime        // displays kernel messages, helping you diagnose hardware and system-related issues.
-
-timedatectl
 
 
 IO
