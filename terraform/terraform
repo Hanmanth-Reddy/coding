@@ -1,0 +1,59 @@
+1) Providers
+2) Variables
+3) Resources
+4) Modules
+5) state 
+6) Provider block 
+7) Data Sources
+8) Outputs 
+9) backends
+10) workspace
+11) Provisioners 
+12) Meta-Arguments
+13) Local Values 
+14) Life CycleRules
+15) Remote Execution 
+16) Dynamic blocks
+
+
+==========================
+Terraform commands
+==========================
+Terraform init                    // To initilize the working directory 
+Terraform validate                // To validate the syntax
+terraform plan                    // dry run
+terraform apply                   // To provssion 
+terraform apply -var 'key=value'
+terraform destroy                 // To remove 
+
+=====================
+Resource Management
+======================
+terraform show                    // Displays information about the state or plan.
+terraform state list              // list all resources in the state 
+terraform state show <resource>   // detailed state of a resource
+terraform taint <resource>        // Mark resource for recreation 
+terraform untaint <resource>      //Removes the "taint" from a resource, preventing its recreation.
+
+=================
+workspace
+=================
+terraform workspace list
+terraform workspace create staging 
+terraform workspace select production 
+
+=======================
+Variables and Outputs
+=======================
+terraform outputs                //To show the outputs defined in the configuration
+terraform output <variable_name> //Shows the value of a specific output variable.
+
+===========================
+State and Collaboration
+===========================
+terraform state pull             //Retrieves the Terraform state from the remote backend.
+terraform state push             //Pushes the Terraform state to the remote backend.
+terraform refresh                //Updates the Terraform state file with the real-world resources' actual state.
+terraform lock                   //Manages state locking for preventing concurrent operations.
+terraform unlock
+
