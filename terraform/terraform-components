@@ -1,0 +1,69 @@
+GCP authentication - Service accounts
+
+
+1)  Providers
+2)  Resources
+3)  Variables
+4)  Modules
+5)  Statefile 
+6)  backends or remote state
+7)  Data Sources
+8)  Outputs 
+9)  Provider block 
+10) workspace
+11) Provisioners , to addtional config steps
+12) Meta-Arguments
+13) Local Values 
+14) Life CycleRules
+15) Remote Execution 
+16) Dynamic blocks
+17) Service Pricipals
+
+
+---------------
+Provider
+---------------
+provider "cloud_provider"{
+"key1" = "val1"
+
+}
+
+-------------------
+Resources sytax
+-------------------
+resource "resource_type" "resource_block_name"
+{
+key1 = "va11"
+"key2" = "val2"
+}
+
+
+----------------
+Variable
+----------------
+terraform.vars
+variables.tf
+
+variable "name" {
+type = string
+description = "description about the file"
+default = "default_value"
+}
+
+------------------
+Statefile
+------------------
+terraform.tfstate
+
+terraform import 
+
+
+----------------
+Backend
+----------------
+
+
+
+
+
+

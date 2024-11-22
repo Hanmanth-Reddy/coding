@@ -1,0 +1,56 @@
+userlist spinnaker_users
+  user spinnaker password $6$BQckeHv7ezE5.hMJ$MoJc/0eRBe5Q39yHMbPzexAJ3edVJ6MK6TRc79uklaJsR0BjstY2Q1lzbTOGDJyYXmHzW7Ph1SwNE9ZUHyj.T0
+
+
+frontend spinnaker_frontend
+    bind *:80
+    mode http
+    acl AuthOkay http_auth(spinnaker_users)
+    http-request auth realm Spinnaker if !AuthOkay
+    default_backend spinnaker_backend
+
+backend spinnaker_backend
+    mode http
+    server spinnaker_server localhost:9000 check
+
+
+#---------------------------------------------------------------------
+# main frontend which proxys to the backends
+#---------------------------------------------------------------------
+frontend  http_api_6443
+    bind 173.37.20.168:6443
+    bind 127.0.0.1:6443
+    mode tcp
+    option tcplog
+    default_backend k8s_api_6443
+
+#---------------------------------------------------------------------
+# main frontend which proxys to the backends
+#---------------------------------------------------------------------
+frontend  http_api_443
+    bind 173.37.20.168:443
+    mode http
+    default_backend k8s_api_443
+
+#---------------------------------------------------------------------
+# round robin balancing between the various backends
+#---------------------------------------------------------------------
+backend k8s_api_6443
+    balance     roundrobin
+    mode tcp
+    option tcplog
+    option tcp-check
+    default-server inter 10s downinter 5s rise 2 fall 2 slowstart 60s maxconn 250 maxqueue 256 weight 100
+
+    server  prd-master-1 173.37.27.254:6443 check
+    server  prd-master-2 173.36.95.217:6443 check
+    server  prd-master-3 173.37.20.208:6443 check
+
+backend k8s_api_443
+    balance     roundrobin
+    mode http
+
+    server  prd-master-1 173.37.27.254:6443 check
+    server  prd-master-2 173.36.95.217:6443 check
+    server  prd-master-3 173.37.20.208:6443 check
+
