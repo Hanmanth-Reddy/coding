@@ -1,0 +1,53 @@
+#####system info
+	uname -a > /tmp/uname.txt
+	cat /etc/*-release > /tmp/linux-release.txt
+	cat /proc/cmdline > /tmp/cmdline.txt
+	top -n1 -b > /tmp/top.txt
+	ps -eaf > /tmp/ps.txt
+	df -h > /tmp/df.txt
+	timedatectl > /tmp/timedatectl.txt
+	
+#####system info
+    sudo dmesg --ctime > /tmp/dmesg-localTZ.txt
+	
+#####network
+	sudo netstat -anp > /tmp/netstat_all.txt 2>&1
+	sudo netstat -ntulpn > /tmp/netstat_listening.txt 2>&1
+	sudo iptables -L -v -n > /tmp/iptables.txt 2>&1
+	sudo ip rule show > /tmp/ip_routing_tables.txt 2>&1
+	sudo route -n > /tmp/routes.txt 2>&1
+
+#####mounts
+	sudo mount > /tmp/mounts.txt 2>&1
+	sudo cat /etc/fstab > /tmp/fstab.txt 2>&1
+	sudo cat /etc/sysctl.conf > /tmp/sysctl.txt 2>&1
+
+############# SAR
+	#sar individual devices - sample 5 times every 1 second
+	echo "SAR [sampling individual I/O devices]" 
+	sar -d -p 1 5 > /tmp/sar_devices.txt 2>&1
+	#CPU usage - individual cores - sample 5 times every 1 second
+	echo "SAR [sampling CPU cores usage]" 
+	sar -P ALL 1 5 > /tmp/sar_cpu_cores.txt 2>&1
+	#load average last 1-5-15 minutes - 1 sample
+	echo "SAR [collect load average]" 
+	sar -q 1 1 > /tmp/sar_load_average_sampled.txt 2>&1
+	#memory - sample 5 times every 1 second
+	echo "SAR [sampling memory usage]" 
+	sar -r 1 5 > /tmp/sar_memory_sampled.txt 2>&1
+	#swap - sample once
+	echo "SAR [collect swap usage]" 
+	sar -S 1 1 > /tmp/sar_swap_sampled.txt 2>&1
+	#network
+	echo "SAR [collect network stats]" 
+	sar -n DEV > /tmp/sar_network.txt 2>&1
+	
+	
+## To check list of openfiles:
+lsof:
+-> Determine which files are currently being accessed and by which processes. 
+-> lists all open files in the system, which includes regular files, directories, block devices, character devices, and network sockets.
+
+lsof |grep /apps/data
+
+

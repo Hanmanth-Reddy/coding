@@ -1,0 +1,58 @@
+Load Balancers:
+----------------
+Classic LoadBalancers (Old, not recommonded)
+Application LoadBalancers (HTTP/HTTPS Layer7)
+Network LoadBalancers (TCP,UDP, TLS, not http/https)
+Gateway LoadBalancers
+
+-> LB types internal and external 
+
+Freature for applciations loadbalancers:
+Rules:
+-------
+Host(host header)
+Http header 
+Request Method 
+Path 
+Query string 
+Source IP
+
+Actions:
+---------
+Forward
+Redirect
+Fixed- Response 
+Authenticate-oidc 
+Authenticate-Cognito
+
+Health Checks
+
+
+Feature of Network LoadBalancers
+---------------------------------
+No broken encryption / end-to-end encryption
+Fast
+
+Launch Configuration( Not in use)
+Launch template ( Placement Groups, Capacity Reservations, Elastic Graphics)
+Target Groups
+Cloud Watch
+Auto scaling policies
+	Manual Scaling
+	Scheduled Scaling
+	Dynamic Scaling 
+		simple 
+		step 
+		target traking 
+		predictive scaling 
+        Scaling based on SQS messages 		
+Cooldown peroid 
+Health checks		
+
+DB Cache Services:
+-------------------
+Elastic Cache 
+Elastic Redis
+Elastic DynamoDB accelator
+
+

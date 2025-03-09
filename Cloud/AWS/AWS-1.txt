@@ -1,0 +1,176 @@
+===========================================================
+IAM
+=================================================
+
+1)AWS Account best practices 
+2) Budget Alarms setup
+AWS aws global infrastructure
+
+
+IAM(identity and access Management):
+
+Users, roles, groups, policies
+
+least privileged access
+
+IAM is global services, all global services hosted on north virginia(us-east-1) 
+IAM is AWS managed service
+
+
+Identity(user,group,role), Access(policies, predefined, Custom policies)
+
+Identity federation - MicroSoft AD integration/ Facebook / Google / Amazon
+
+Different ways to connect AWS:
+------------------------------
+AWS console
+AWS Cli
+SDK(Programatically) python,Java,.. etc
+HTTP APIs(REST APIs)
+
+choosing region:
+-----------------
+Pricing:
+Available services:
+Compliance: data goverance and legal requirements
+Private regions: US govt, China
+proxitimity: to customers, to reduce latency 
+
+
+
+location-direction-launch time
+us-east-1
+
+
+Regions: 31
+each regions containers atleast 3 AZ, there will be atleast 100km between AZ's.
+Availaility zones : 99
+3*AZ
+Data centers 
+
+
+======================
+=======  VPC  ========
+======================
+entry Gate --> Internet Gateway
+
+VPC -- regional specific 
+Subnet is AZ specific
+
+ITIN
+
+
+CAR -->
+
+
+
+
+
+W2 
+
+
+117637
+
+56.55*72
+Subnetworks
+Private Subnetworks
+Public Subnetworks
+Routers - 1 Private Subnet , 1 public Subnets
+Internet GW attached Router and Subnets are Public Subnets 
+Internet Gateway
+NAT gateway GW
+
+Security Groups (SG)  -- Server level
+NACL (Network access control list)  -- network level
+
+Bastion Host
+
+
+=======================================
+========== Virtualization =============
+=======================================
+Hypervization
+Xen ( Open Source)
+Nitro (AWS owned)
+
+
+PVM - para virtulization
+HVM - Hardware Virtulization 
+SR - IOV Single root Input Output Virtualization
+
+
+EC2 - elastic Compute Cloud 
+
+
+
+==================
+Storage
+==================
+
+Level of storage
+1) File Level Storage   EFS(linux), FSx(windows) - files 
+2) Block storage        EBK - blocks
+3) Object storage       S3 - chunks 
+
+S3 - is global service storage is regional
+
+Storage Types:
+
+DAS --> Direct attached storage
+NAS --> Network attached Storage`
+SAN --> Storage Area Network
+
+
+
+
+
+------
+JSON
+-----
+
+used for data exchange between servers 
+Json used in AWS Cloud Formation/IAM policies /SCP (service control polices)
+Keys mush be string, Values cab be a 1) string 2) number 3) boolean 4) null 5) Json 6) Array
+
+
+============
+Policies
+============
+Policies are used to manage permissions across AWS Types:
+1)Identity based policies ( users, groups, roles)
+2) Resources based policies (S3, KMS,SQS etc)
+3) Permission boundaries 
+4) Organization SCP's (service control polcies)
+5) ACL's
+6) Session policies 
+
+
+
+#########Identity based policies ##########
+To manage permissions of IAM indetities - Users , Groups, Roles
+Allow/Deny , Deny has more priority over allow
+
+Inline policies 
+AWS managed 
+Customer polcies  
+
+
+{
+"version:: "2012-10-17",
+"statement": [ 
+{
+"sid": "S3 allow access"
+"effect": "allow"
+"action": ["s3": "list","s3": "create"]
+"resource" : "*"
+}
+]
+}
+
+}
+
+Practice - 1: 
+Create Users, Groups attach polices and setup MFA
+
+
+aws configure 
