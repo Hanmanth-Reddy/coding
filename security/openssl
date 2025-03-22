@@ -3,7 +3,7 @@ CA,
 
 =================== Generate CSR( Certificate Signing request) =============================================
 
-Method1:
+#Method1:
 Step 1) To create privateKey
 openssl genrsa -out yourdomain.key 2048
 
@@ -13,12 +13,17 @@ openssl rsa -text -in yourdomain.key -noout
 Step 2) Create CSR using existing PrivateKey 
 openssl req -new -key yourdomain.pem -out my_csr.csr
 
-Method2:
+# Method2:
 openssl req -new -newkey rsa:2048 -nodes -keyout domain.key -out domain.csr
 
-Method3:
-openssl req -new -newkey rsa:2048 -nodes -keyout domain.key -out domain.csr
+# Method3:
+openssl req -new -newkey rsa:2048 -nodes -keyout domain.key -out domain.csr   \
 -subj "/C=US/ST=California/L=SanJose/O=AI Systems Inc./OU=IT/CN=example.aisystems.com/emailAddress=hanmanth.scm@gmail.com"
+
+
+openssl req -new -newkey rsa:2048 -nodes -keyout ElasticCloudEnterprise.key -out ElasticCloudEnterprise.csr   \
+-subj "/C=US/ST=California/L=San Jose/O=Cisco Systems Inc./OU=M1788009/CN=*.ece-alln.cisco.com"    \
+-addext "subjectAltName=DNS:ece.cisco.com,DNS:*.ece.cisco.com,DNS:ece-alln.cisco.com,DNS:*.ece-alln.cisco.com" \
 
 
 =================== To verify CSR information =============================================
