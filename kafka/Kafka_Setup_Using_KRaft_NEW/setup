@@ -1,0 +1,49 @@
+### Install Java
+sudo dnf install -y java-17-openjdk  # For RHEL-based systems
+sudo apt install -y openjdk-17-jdk   # For Debian-based systems
+
+## Install Kafka on all nodes
+cd /opt
+sudo curl -O https://downloads.apache.org/kafka/4.0.0/kafka_2.13-4.0.0.tgz
+sudo tar -xvzf kafka_2.13-4.0.0.tgz
+sudo mv kafka_2.13-4.0.0 kafka
+cd kafka
+
+
+### Define Cluster Nodes
+192.168.1.1 kafka1
+192.168.1.2 kafka2
+192.168.1.3 kafka3
+
+vim /etc/hosts 
+
+
+### Configure Kafka for KRaft on Each Node
+
+# Unique node ID (Set different for each node)
+node.id=1  # Change to 2 for Node 2, 3 for Node 3
+
+# Define this node's role
+process.roles=controller,broker
+
+# Define the KRaft metadata quorum (same on all nodes)
+controller.quorum.voters=1@kafka1:9093,2@kafka2:9093,3@kafka3:9093
+
+# Internal communication for metadata management
+listeners=PLAINTEXT://:9092,CONTROLLER://:9093
+advertised.listeners=PLAINTEXT://kafka1:9092  # Change for each node
+
+# Storage location for logs
+log.dirs=/var/lib/kafka
+
+# Broker settings
+num.network.threads=3
+num.io.threads=8
+log.retention.hours=168
+log.segment.bytes=1073741824
+log.retention.check.interval.ms=300000
+
+
+##### Format the KRaft Metadata Store
+bin/kafka-storage.sh random-uuid
+bin/kafka-storage.sh format -t <cluster-id> -c config/kraft/server.properties

@@ -1,0 +1,18 @@
+Namespaces isolate system resources so that each container has its own view of the system, independent of others.
+unshare --pid --fork bash
+lsns -t pid|net|mnt|ipc|uts|user
+
+cgroups control and limit resource usage (CPU, memory, disk I/O, network) for processes.
+
+
+Example:
+mkdir /sys/fs/cgroup/cpu/my_cgroup
+echo 50000 > /sys/fs/cgroup/cpu/my_cgroup/cpu.cfs_quota_us
+echo $$ > /sys/fs/cgroup/cpu/my_cgroup/tasks
+
+
+echo 50000 > /sys/fs/cgroup/cpu/docker/<id>/cpu.cfs_quota_us
+echo 500M > /sys/fs/cgroup/memory/docker/<id>/memory.limit_in_bytes
+echo "8:0 1048576" > /sys/fs/cgroup/blkio/docker/<id>/blkio.throttle.read_bps_device
+tc qdisc add dev eth0 root tbf rate 1mbit burst 32kbit latency 400ms
+
