@@ -124,21 +124,52 @@ dd if=/dev/zero of=output_file bs=1M count=10        //Creating a File of a Spec
 =========================================================
 Systemd (Systemctl)
 =========================================================
-systemctl status <service-name>
-systemctl start <service-name>
-systemctl enable <service-name>
-systemctl mask <service-name>
-systemctl reload <service-name>           // Reload config without restart
 
-systemctl list-units                      // To list active services, devices, mounts, etc.
-systemctl list-units --all                // To list all including inactive 
-systemctl list-units --type=service
+systemctl status|start|stop|reload|restart|enable|disable|is-enabled|mask|unmask <service-name>
 
 
-systemctl cat docker.service
- 
-journalctl -xe
-journalctl -u kubelet
+systemctl list-units --all                     // To list active services, devices, mounts, etc.  including inactive 
+systemctl list-units --type=service --all
+systemctl list-unit-files 
+
+Service units (.service) – Control background services.
+Target units (.target) – Group services (like runlevels in SysVinit).
+Socket units (.socket) – Handle inter-process communication.
+Timer units (.timer) – Alternative to cron jobs.
+Device units (.device) – Manage devices.
+
+
+systemctl cat containerd.service
+systemctl show containerd.service
+
+
+### To set Run Levels
+systemctl list-units --type=target --all
+systemctl get-default
+systemctl set-default multi-user.target
+sudo systemctl isolate multi-user.target // To set change immediately 
+
+
+Runlevel systemd Target	    Purpose
+0   	 poweroff.target	Shutdown system
+1       (Single User Mode)	rescue.target	Rescue mode
+3   	 multi-user.target	Multi-user mode (CLI)
+5	     graphical.target	Multi-user mode with GUI
+6	     reboot.target	    Reboot
+
+
+
+
+journalctl -u httpd -f  // httpd service dynamic logs
+journalctl -b   // to see current boot logs 
+
+
+
+
+
+
+
+
 
 ====================================================
 Access Control
