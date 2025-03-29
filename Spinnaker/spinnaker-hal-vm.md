@@ -1,9 +1,7 @@
 # Spinnaker Installation
 
 
-===================
-## Install Minio 
-===================
+## Install & Configure MinIO (S3-Compatible)
 ```
 curl -o /usr/local/bin/minio https://dl.min.io/server/minio/release/linux-amd64/minio
 chmod +x /usr/local/bin/minio
@@ -11,7 +9,6 @@ chmod +x /usr/local/bin/minio
 nohup minio server /minio &
 ```
 [OR]
-## Install & Configure MinIO (S3-Compatible)
 ```
 sudo mkdir -p /opt/minio
 curl -o /usr/local/bin/minio https://dl.min.io/server/minio/release/linux-amd64/minio
@@ -41,7 +38,7 @@ sudo systemctl enable --now minio
 
 ```
  
-## Step 1. Install halyard
+### Step 1. Install halyard
 ```
 curl -O https://raw.githubusercontent.com/spinnaker/halyard/master/install/debian/InstallHalyard.sh
 sudo bash InstallHalyard.sh
@@ -70,7 +67,7 @@ sudo systemctl start halyard
 hal --version
 
 ```
-## Step2: Configure Storage for Spinnaker
+### Step2: Configure Storage for Spinnaker
 Spinnaker needs a persistent storage backend. You can use MinIO (S3-compatible), Google Cloud Storage, or Azure Blob Storage.
 ```
 # To setup Minio as Storage
@@ -119,40 +116,42 @@ hal config storage edit --type s3
 
 
 
-## Step 3: Configure & Install Spinnaker
-hal version list                                             // Setup Version
+### Step 3: Configure & Install Spinnaker
+```
+hal version list
 export VERSION=1.33.3
 hal config version edit --version $VERSION
 hal deploy apply
+```
 
-
-## Step 4: Start Spinnaker Services
+### Step 4: Start Spinnaker Services
+```
 hal deploy connect
 http://localhost:9000
 
 hal config security ui edit --override-base-url "http://<LoadBalancerIP>:9000"
 hal config security api edit --override-base-url "http://<LoadBalancerIP>:8084"
 hal deploy apply
+```
 
-
-## Troubleshooting
+### Troubleshooting
+```
 sudo journalctl -u halyard -f
 hal deploy connect
+```
 
-
-## To purge/clean up deployment and Uninstall halyard
+### To purge/clean up deployment and Uninstall halyard
+```
 hal deploy clean
-
 sudo ~/.hal/uninstall.sh
-
-## To upgrade halyard
+```
+#### To upgrade halyard
+```
 apt-get update
 sudo apt --only-upgrade install spinnaker-halyard
 ```
 
-
-
-## hal commands 
+### hal commands 
 ```
 hal 
 	admin 
@@ -166,12 +165,12 @@ hal
 	version
 ```
 
-## Providers:
+### Providers:
 ```
 In Spinnaker, providers are integrations to the Cloud platforms you deploy your applications to.
 ```
 
-## Spinnaker Accounts:
+### Spinnaker Accounts:
 ```
 you’ll register credentials for your Cloud platforms. 
 Those credentials are known as Accounts in Spinnaker, and Spinnaker deploys your applications via those accounts.
@@ -180,9 +179,9 @@ for Spinnaker to do anything you must enable at least one """provider""", with o
 ```
 
 
-========================
-Spinnaker Componenets
-========================
+
+### Spinnaker Componenets
+```
 Clouddriver - Manages cloud provider-specific operations (like creating and managing resources).
 Orca - The orchestration engine responsible for running pipelines and managing task execution.
 Deck - The UI for Spinnaker, typically served as a static web app.
@@ -194,9 +193,10 @@ Rosco - A Packer service for creating machine images.
 keel -
 kayenta -
 fiat -
--------------
-packages
--------------
+```
+
+### packages
+```
 spinnaker-clouddriver
 spinnaker-deck
 spinnaker-echo
@@ -210,10 +210,11 @@ spinnaker-keel
 spinnaker-monitoring
 spinnaker-orca
 spinnaker-rosco
+```
 
-============================
-Supported Identity Providers
-============================
+### Supported Identity Providers
+```
 Oauth 2.0
 SAML
 LDAP
+```
