@@ -56,16 +56,20 @@ hal config features edit --artifacts true
 hal config deploy edit --type distributed --account-name my-k8s
 
 #### Install minio in kubernetes cluster
-#### using Helm v3+
-```
-kubectl create ns spinnaker
-helm repo add 
-helm install minio --namespace spinnaker --set accessKey="myaccesskey" --set secretKey="mysecretkey" --set persistence.enabled=false stable/minio
-```
-using Helm v2
-```
-helm install --name minio --namespace spinnaker --set accessKey="myaccesskey" --set secretKey="mysecretkey" --set persistence.enabled=false stable/minio
-```
+###kubectl create ns spinnaker
+
+helm repo add minio https://charts.min.io/
+
+helm repo update
+
+helm install minio minio/minio --namespace spinnaker \
+  --set replicas=1 \
+  --set resources.requests.memory=2Gi \
+  --set accessKey="myaccesskey" \
+  --set secretKey="mysecretkey" \
+  --set persistence.enabled=false \
+  --create-namespace
+
 
 ### For minio, disable s3 versioning
 mkdir ~/.hal/default/profiles
