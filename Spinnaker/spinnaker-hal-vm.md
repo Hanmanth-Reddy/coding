@@ -138,6 +138,18 @@ hal deploy apply
 ```
 sudo journalctl -u halyard -f
 hal deploy connect
+
+
+systemctl status redis
+systemctl status clouddriver
+systemctl status orca
+systemctl status front50
+systemctl status gate
+systemctl status echo
+systemctl status rosco
+systemctl status igor
+systemctl status deck
+systemcl status minio
 ```
 
 ### To purge/clean up deployment and Uninstall halyard
