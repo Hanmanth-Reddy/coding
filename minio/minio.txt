@@ -1,9 +1,0 @@
-Minio is Object(BLOB - Documents, Photos, Videos) storage server. Object storage is widely used in modern computing for handling large amounts of unstructured data, like multimedia files, backups, log data, and more.
-
-
-downlaod minio and set path
-minio server C:\minio --console-address :9001
-
-minio server C:\minio-data --console-address :9001
-
-nohup minio server /minio --address localhost:9009 --console-address esearch-stg-worker-3:9007 &
