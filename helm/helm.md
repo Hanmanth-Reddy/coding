@@ -54,8 +54,15 @@
 
     helm status [RELEASE_NAME] 
 
+    ## To get release informaton
     helm get all [RELEASE_NAME]]
     helm get all spark-relase-5
+    
+    helm get manifest spark-release-5  // To get release manifest
+    helm get values [RELEASE_NAME]
+
+    helm status [RELEASE_NAME]
+
 
 
 ## To create custom Charts
@@ -65,14 +72,11 @@
     helm lint </path/to/mychart>
     helm lint hello
 
+    ##To render chart templates locally
     helm template [RELEASE_NAME] [CHART_NAME]
     helm template spark-release-5 spark-operator --set key1=val1,key2=val2
 
-
-    helm get values [RELEASE_NAME]
     kubectl get pods -n default -l release=myapp
 
     helm dependency update [CHART_NAME]
     helm dependency update [CHART_NAME]
-
-	helm status [RELEASE_NAME]
