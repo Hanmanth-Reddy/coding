@@ -1,23 +1,27 @@
 
 which [command]
 
-
 ==================================
-OS info
-==================================
+## OS info
+================================
+```
 cat /etc/os-release
 cat /etc/redhat-release
 cat /etc/system-release
 cat /etc/*-release
-
-Environment Variables
-======================
-env 
-/etc/environment 
-
-File Ops and Text processing 
+```
 ===============================
-cat
+## Environment Variables
+==============================
+```
+env 
+
+/etc/environment 
+```
+===============================
+## File Ops and Text processing 
+===============================
+```
 cat <<EOF>> example.txt
 hello 
 how are you ?
@@ -34,14 +38,16 @@ grep
 egrep
 sed
 
+### AWK commands
 awk '{print}' employee.txt
 awk '/manager|DevOps/'  {print $1, $2, $NF}' employee.txt "
 awk options 'selection _criteria {action }' input-file > output-file
+```
 
-
-==========================================================
-Process management
-==========================================================
+================================
+## Process management
+================================
+```
 ps -ef 
 ps -e -o col1, col2, col3 --sort=-cpu,mem
 ps -e -C httpd
@@ -61,70 +67,12 @@ bg
 fg %
 
 jobs
+```
 
-============================================
-CPU
-===========================================
-sar
-sar -q 1 1  //sar-load-average-sampled.txt
-sar -S 1 1  //sar-swap-sampled.txt
-sar -P ALL 1 5  //sar-cpu-cores.txt
-sar -d -p 1 5  //sar-devices.txt
-sar -r 1 5  //sar-memory-sampled.txt
-sar -n DEV  //sar-network.txt
-
-============================================
-Memory
-=============================================
-free -g
-
-swapoff -a 
-sed -i '/swap/ s/^/#/' /etc/fstab
-
-=======================================================
-Disk Management 
-======================================================
-df -h
-du -sh 
-
-lsblk                        // To displays info about block devices (disks and partitions)
-lsblk -o NAME,RA,MOUNTPOINT,TYPE,TRAN,SIZE,MIN-IO,FSTYPE
-
-// A powerful tool for managing disk partitions.
-fdisk -l                     // To list partitions
-fdisk /dev/sda               // To modify partition 
-
-// parted is a tool for managing disk partitions, similar to fdisk
-parted -l                   // To list partitions 
-parted /dev/sda             // To modify partion
-
-mkfs                       // create a new file system on a partition.
-mkfs.ext4 /dev/sda1        // create an ext4 file system on /dev/sda1 partition
-mkfs.vfat /dev/sda1        // create an FAT32 file system on /dev/sda1 partition
-mkfs.xfs /dev/sda1         // create an XFS file system on /dev/sda1 partition
-xfs_info /apps/data/elastic
-
-mount /dev/sda1 /mnt      //Mounts the /dev/sda1 partition to the /mnt directory.
-umount /mnt
-mount                      // To show mounted filesystems
-
-mount -a
-cat /etc/fstab
-
-
-dd                                                   // data duplicator - used for copying and converting data between files and devices
-                                                        used for various tasks, including creating backups, cloning disks, and generating random data 
-dd if=input_file of=output_file                      // Copying Data from One File to Another
-dd if=/dev/sdX of=partition_image.img                //Creating a Backup or Disk Image
-dd if=/dev/sdX of=/dev/sdY bs=4M                     //Cloning Disk or Partitions
-dd if=/dev/urandom of=random_data.bin bs=1M count=10 // Creating Random Data
-dd if=input_file of=/dev/null bs=1M                  //Checking Disk or File Read Speed
-dd if=/dev/zero of=output_file bs=1M count=10        //Creating a File of a Specific Size
-
-=========================================================
-Systemd (Systemctl)
-=========================================================
-
+================================
+## Systemd (Systemctl)
+================================
+```
 systemctl status|start|stop|reload|restart|enable|disable|is-enabled|mask|unmask <service-name>
 
 
@@ -162,18 +110,76 @@ Runlevel systemd Target	    Purpose
 
 journalctl -u httpd -f  // httpd service dynamic logs
 journalctl -b   // to see current boot logs 
+```
+
+================================
+## CPU
+================================
+```
+sar
+sar -q 1 1  //sar-load-average-sampled.txt
+sar -S 1 1  //sar-swap-sampled.txt
+sar -P ALL 1 5  //sar-cpu-cores.txt
+sar -d -p 1 5  //sar-devices.txt
+sar -r 1 5  //sar-memory-sampled.txt
+sar -n DEV  //sar-network.txt
+```
+================================
+## Memory
+================================
+```
+free -g
+
+swapoff -a 
+sed -i '/swap/ s/^/#/' /etc/fstab
+```
+================================
+## Disk Management 
+================================
+```
+df -h
+du -sh 
+
+lsblk                        // To displays info about block devices (disks and partitions)
+lsblk -o NAME,RA,MOUNTPOINT,TYPE,TRAN,SIZE,MIN-IO,FSTYPE
+
+// A powerful tool for managing disk partitions.
+fdisk -l                     // To list partitions
+fdisk /dev/sda               // To modify partition 
+
+// parted is a tool for managing disk partitions, similar to fdisk
+parted -l                   // To list partitions 
+parted /dev/sda             // To modify partion
+
+mkfs                       // create a new file system on a partition.
+mkfs.ext4 /dev/sda1        // create an ext4 file system on /dev/sda1 partition
+mkfs.vfat /dev/sda1        // create an FAT32 file system on /dev/sda1 partition
+mkfs.xfs /dev/sda1         // create an XFS file system on /dev/sda1 partition
+xfs_info /apps/data/elastic
+
+mount /dev/sda1 /mnt      //Mounts the /dev/sda1 partition to the /mnt directory.
+umount /mnt
+mount                      // To show mounted filesystems
+
+mount -a
+cat /etc/fstab
 
 
+dd                                                   // data duplicator - used for copying and converting data between files and devices
+                                                        used for various tasks, including creating backups, cloning disks, and generating random data 
+dd if=input_file of=output_file                      // Copying Data from One File to Another
+dd if=/dev/sdX of=partition_image.img                //Creating a Backup or Disk Image
+dd if=/dev/sdX of=/dev/sdY bs=4M                     //Cloning Disk or Partitions
+dd if=/dev/urandom of=random_data.bin bs=1M count=10 // Creating Random Data
+dd if=input_file of=/dev/null bs=1M                  //Checking Disk or File Read Speed
+dd if=/dev/zero of=output_file bs=1M count=10        //Creating a File of a Specific Size
+```
 
 
-
-
-
-
-
-====================================================
-Access Control
-====================================================
+================================
+## Access Control
+================================
+```
 chmod
 4 2 1
 u g o ,   r w x 
@@ -188,10 +194,11 @@ getfacl --access /data | setfacl -d -M- /db
 getfacl /data/file1 | setfacl --set-file=- /test"
 
 
-
-======================================================
-Kernel
-=======================================================
+```
+================================
+## Kernel
+================================
+```
                               // These settings affect how the Linux kernel interacts with hardware, memory, networking, etc.
 sysctl --system              // to load kernel params without reboot
 sysctl -a                    // To lists all available kernel parameters a
@@ -208,10 +215,11 @@ dmesg --ctime        // displays kernel messages, helping you diagnose hardware 
 
 timedatectl
 
-
-=========================================================
+```
+================================
 Networking
-=========================================================
+================================
+```
 ping -c 4 <IP>
 telnet <domian/ip> <port>
 nc -vz <domain/ip> <port>
@@ -275,10 +283,11 @@ nmap -p- 192.168.1.0/24
 nmap -p 1-1000 <target_ip_or_hostname>   //Scan range of ports
 
 nmap -sS -sU -p- <target_ip_or_hostname>  //Scan both TCP & UDP ports
-
-=====================================
-Debug
-=====================================
+```
+=================================
+## Debug
+=================================
+```
 lsof
 ulimit -n 
 /etc/security/limits.conf
@@ -297,10 +306,11 @@ ltrace
 
 watch -n 1 'command'
 
-
-=====================
-proc
-=============================
+```
+================================
+## proc
+================================
+```
 cat /proc/sys/crypto/fips-enabled
 /proc/[PID]/status
 cat /proc/cmdline
@@ -310,39 +320,44 @@ cat /proc/cmdline
 /proc/loadavg
 /proc/sys/fs/file-max
 
+```
 
-IO
-====
+=================================
+## IO
+=================================
+```
 iostat -c -d -x -t -m 1 5
 sysstat
 iostat 
-
-===========================================
-User mgmt
-===========================================
-
-
-==========================================
-Sudoers mgmt
-===========================================
+```
+=================================
+## User mgmt
+=================================
 
 
-=================================================
-Speacial Commands
-=================================================
+=================================
+## Sudoers mgmt
+=================================
+
+
+=================================
+## Speacial Commands
+=================================
 truncate --size=100M filename.txt
 
 
-================================================
-Archive & Compress 
-================================================
+=================================
+## Archive & Compress 
+=================================
 
 
-======================================================
-Package management
-======================================================
+=================================
+## Package management
+=================================
+```
 rpm -qa 
 
 rpm -ql [package name]
 rpm -qf [binary/filename]
 yum install bind-tils net-tools -y
+```

@@ -1,19 +1,19 @@
 # Spinnaker Setup Using Helm:
 
-## Non-Gitops Method:
-### Add helm repo, and install Spinnaker
+## Non-Gitops Method: Add helm repo, and install Spinnaker
 ```
 helm repo add spinnaker https://opsmx.github.io/spinnaker-helm/
 helm repo update
 
-kubectl create namespace opsmx-oss
+kubectl create namespace spinnaker
 
-helm install oss-spin spinnaker/spinnaker -n opsmx-oss --timeout 600s
+helm install spinnaker spinnaker/spinnaker -n spinnaker --create-namespace --timeout 600s --debug
 ```
 
-## Access Deck using port-forward [or] Setup Ingress
+### Access Deck using port-forward [or] Setup Ingress
 kubectl -n opsmx-oss port-forward svc/spin-deck 9000
 
+### Ingress option-1 for spin-deck
 ```bash
 ---
 apiVersion: networking.k8s.io/v1
@@ -39,6 +39,27 @@ spec:
         path: /
         pathType: ImplementationSpecific
 ```		
-
+### Ingress option-2 for spin-deck
+```bash
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: spin-deck-ingress
+  namespace: spinnaker
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - host: deck.spinnaker.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: spin-deck
+            port:
+              number: 9000
+```
 
 ## Gitops Method:
