@@ -235,14 +235,16 @@ curl -L http://example.com  //headers only
 curl -X POST -F "file=@localfile.txt" http://example.com/upload  //upload a file
 curl -k -u user:password -XPOST  -H "Authorization: Bearer Token" -H "Content-Type: application/json" -d "param1=value1&param2=value2" http://example.com
 
+
+
 /etc/hosts
 /etc/hosts.allow
 /etc/hosts.deny
 /etc/resolv.conf
-/etc/switch.conf
+/etc/nsswitch.conf
+
 /etc/networks
 /etc/sysconfig/network
-/etc/systemconfig 
 /etc/systemconfig/network-scripts
 
 
