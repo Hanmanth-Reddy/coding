@@ -1,26 +1,23 @@
 
 which [command]
 
-==================================
+
 ## OS info
-================================
 ```
 cat /etc/os-release
 cat /etc/redhat-release
 cat /etc/system-release
 cat /etc/*-release
 ```
-===============================
+
 ## Environment Variables
-==============================
 ```
 env 
 
 /etc/environment 
 ```
-===============================
+
 ## File Ops and Text processing 
-===============================
 ```
 cat <<EOF>> example.txt
 hello 
@@ -44,9 +41,8 @@ awk '/manager|DevOps/'  {print $1, $2, $NF}' employee.txt "
 awk options 'selection _criteria {action }' input-file > output-file
 ```
 
-================================
+
 ## Process management
-================================
 ```
 ps -ef 
 ps -e -o col1, col2, col3 --sort=-cpu,mem
@@ -69,9 +65,7 @@ fg %
 jobs
 ```
 
-================================
 ## Systemd (Systemctl)
-================================
 ```
 systemctl status|start|stop|reload|restart|enable|disable|is-enabled|mask|unmask <service-name>
 
@@ -112,9 +106,7 @@ journalctl -u httpd -f  // httpd service dynamic logs
 journalctl -b   // to see current boot logs 
 ```
 
-================================
 ## CPU
-================================
 ```
 sar
 sar -q 1 1  //sar-load-average-sampled.txt
@@ -124,18 +116,17 @@ sar -d -p 1 5  //sar-devices.txt
 sar -r 1 5  //sar-memory-sampled.txt
 sar -n DEV  //sar-network.txt
 ```
-================================
+
 ## Memory
-================================
 ```
 free -g
 
 swapoff -a 
 sed -i '/swap/ s/^/#/' /etc/fstab
 ```
-================================
+
+
 ## Disk Management 
-================================
 ```
 df -h
 du -sh 
@@ -176,9 +167,8 @@ dd if=/dev/zero of=output_file bs=1M count=10        //Creating a File of a Spec
 ```
 
 
-================================
+
 ## Access Control
-================================
 ```
 chmod
 4 2 1
@@ -195,9 +185,8 @@ getfacl /data/file1 | setfacl --set-file=- /test"
 
 
 ```
-================================
+
 ## Kernel
-================================
 ```
                               // These settings affect how the Linux kernel interacts with hardware, memory, networking, etc.
 sysctl --system              // to load kernel params without reboot
@@ -216,9 +205,9 @@ dmesg --ctime        // displays kernel messages, helping you diagnose hardware 
 timedatectl
 
 ```
-================================
-Networking
-================================
+
+
+## Networking
 ```
 ping -c 4 <IP>
 telnet <domian/ip> <port>
@@ -284,9 +273,8 @@ nmap -p 1-1000 <target_ip_or_hostname>   //Scan range of ports
 
 nmap -sS -sU -p- <target_ip_or_hostname>  //Scan both TCP & UDP ports
 ```
-=================================
+
 ## Debug
-=================================
 ```
 lsof
 ulimit -n 
@@ -307,9 +295,8 @@ ltrace
 watch -n 1 'command'
 
 ```
-================================
+
 ## proc
-================================
 ```
 cat /proc/sys/crypto/fips-enabled
 /proc/[PID]/status
@@ -319,41 +306,37 @@ cat /proc/cmdline
 /proc/cpuinfo
 /proc/loadavg
 /proc/sys/fs/file-max
-
 ```
 
-=================================
 ## IO
-=================================
 ```
 iostat -c -d -x -t -m 1 5
 sysstat
 iostat 
 ```
-=================================
+
 ## User mgmt
-=================================
+```
 
+```
 
-=================================
 ## Sudoers mgmt
-=================================
+```
+```
 
-
-=================================
 ## Speacial Commands
-=================================
+```
 truncate --size=100M filename.txt
 
+```
 
-=================================
+
 ## Archive & Compress 
-=================================
+```
 
+```
 
-=================================
 ## Package management
-=================================
 ```
 rpm -qa 
 
