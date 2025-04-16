@@ -80,7 +80,6 @@ openssl x509 -in certificate.crt -text -noout
 ---
 
 
-
 ## Convert PEM to PKCS#12 (.p12) format
 ```bash
 openssl pkcs12 -export -out certificate.p12 -inkey private.key -in certificate.crt
@@ -105,7 +104,7 @@ openssl s_client -connect example.com:443 -tls1_2
 openssl s_client -connect techtarget.com:443 < /dev/null | openssl x509 -text -noout
 
 
-============================ X509 =================================================
+============================ X509=================================================
 openssl x509 -in certificate.crt -text -noout
 openssl x509 -outform der -in certificate.pem -out certificate.der
 openssl x509 -inform der -in certificate.der -out certificate.pem
@@ -119,6 +118,6 @@ openssl verify -CAfile ca.crt certificate.crt
 
 openssl x509 -in certificate.crt -pubkey -noout > public_key.pem //Extact publich key from Digitalcert
 
-================================= TO generate privateKey ======================================
+========================== TO generate privateKey ================================
 openssl genrsa -out private.key 2048
 openssl genpkey -algorithm RSA -out private.key

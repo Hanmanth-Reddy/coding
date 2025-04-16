@@ -21,11 +21,15 @@ POST _reindex?wait_for_completion=false
 }
 ```
 
+
+
 ## Search Templates
 #### To get Search Templates
 ```bash
 GET _cluster/state/metadata?pretty&filter_path=metadata.stored_scripts.search_template1,metadata.stored_scripts.search_template2
 ```
+
+
 
 ## Index temaples
 #### To get Index templates
@@ -50,6 +54,7 @@ PUT _template/template-1
 	}
 }
 ```
+
 
 ## Alias
 #### To get alias
@@ -77,7 +82,9 @@ POST _aliases
 }
 ```
 
-#### To taking Snapshots
+
+## Snapshots
+#### To take Snapshots
 ```bash
 POST _snapshot/<repository>/<snapshot>?wait_for_completion=false
 {
@@ -91,7 +98,7 @@ POST _snapshot/<repository>/<snapshot>?wait_for_completion=false
 }
 ```
 
-#### To restore indexes fro snapshot
+#### To restore indexes from snapshot
 ```bash
 POST /_snapshot/<repository>/<snapshot>/_restore?wait_for_completion=false
 {
@@ -101,3 +108,33 @@ POST /_snapshot/<repository>/<snapshot>/_restore?wait_for_completion=false
   "include_aliases": false
 }
 ```
+
+## Tasks
+#### To get all running tasks
+```bash
+GET _cat/tasks?v
+GET _tasks
+```
+#### To Task task status 
+```bash
+GET _tasks/{task_id}
+```
+#### To cancel a task
+```bash
+POST /_tasks/{task_id}/_cancel
+```
+
+
+#Debugging
+
+GET _cat/shards?v=true&h=index,shard,prirep,state,node,unassigned.reason&s=state
+GET _cluster/allocation/explain 
+{
+“index”: “my-index-00001”,
+“shard”: 0,
+“primary”: true
+}
+
+Get index and cluster settings
+GET my-index-00001/_settings?flat_settings=true&include_defaults=true
+GET _cluster/settings?flat_settings=true&include_defaults=true
