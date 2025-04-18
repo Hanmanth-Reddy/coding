@@ -323,10 +323,50 @@ iostat
 ```
 
 ## Sudoers mgmt
+Config files
+/etc/sudoers
+/etc/sudoers.d/<files>
+
+To edit sudoers files 
+sudo visudo
+
+To check Sudoers permissions
+sudo -l
+
+#### Basic Config 
 ```
+hanmanth    ALL=(ALL) NOPASSWD: ALL
+reddy 		ALL=(ALL) PASSWD: ALL
+patukuri    ALL=(ALL) ALL, !/bin/rm -rf /
+han ALL=(ALL) /usr/bin/systemctl restart nginx
+%devops    ALL=(ALL) ALL
+
+```
+### Advanced Configs User_Alias, Host_Alias, Runas_Alias, Cmnd_Alias
+```
+User_Alias ADMINS = hanmanth, admin2
+Runas_Alias OP = root, apache
+Host_Alias WEB = web1, web2
+Cmnd_Alias RESTART = /usr/bin/systemctl restart nginx, /usr/bin/systemctl restart httpd
+
+ADMINS  WEB = (OP) RESTART
+
 ```
 
-## Speacial Commands
+#### To enable logging 
+```
+Defaults logfile="/var/log/sudo.log"
+Defaults log_input, log_output
+
+```
+#### Use sudoers Defaults to harden environment,To avoid to root shell
+```
+Defaults!vi noexec
+Defaults!less noexec
+
+```
+
+#### Speacial Commands
 ```
 truncate --size=100M filename.txt
 
