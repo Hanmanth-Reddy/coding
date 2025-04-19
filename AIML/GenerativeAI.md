@@ -21,7 +21,8 @@ LLMs are trained on large text datasets and used for tasks like:
 ```
 ________________________________________________________________________________________________________________________________________________________________
 ## Embeddings:
-```
+#### Note: Embedding values vary based on the model you use.
+```text
 Embeddings are numerical representations of data (such as text, images, audio, or code) in a high-dimensional vector space.
 They convert words, sentences, images, or other types of data into high-dimensional vectors, capturing their meanings, relationships, or features.
 These vectors capture semantic meaning and allow for efficient similarity searches.
