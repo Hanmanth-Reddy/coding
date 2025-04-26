@@ -11,6 +11,8 @@
 - Type casting (`int("10")`, `str(5)` etc.)
 - Dynamic typing
 
+[detailed explanation](python_oop_concepts.md)
+
 ## 🔹 3. Operators
 - Arithmetic (`+`, `-`, `*`, `/`, `%`, `**`)
 - Comparison (`==`, `!=`, `>`, `<`)
@@ -26,6 +28,11 @@
   - `for` loop
   - `while` loop
   - Loop control: `break`, `continue`, `pass`
+- comprehension
+  - list comprehension 
+  - dictionary comprehension
+
+[detailed explanation](python_oop_concepts.md)
 
 ## 🔹 5. Functions
 - Defining and calling functions (`def my_func():`)
@@ -33,6 +40,8 @@
 - Default and keyword arguments
 - `*args` and `**kwargs`
 - Lambda functions
+
+[detailed explanation](python_oop_concepts.md)
 
 ## 🔹 6. Data Structures
 - **List**: `append()`, `pop()`, slicing, list comprehensions
@@ -53,15 +62,21 @@
 - Encapsulation
 - Special methods like `__str__`, `__len__`
 
+[detailed explanation](python_oop_concepts.md)
+
 ## 🔹 9. Modules & Packages
 - Importing modules (`import math`, `from os import path`)
 - Creating custom modules
 - Using `pip` to install packages
 - Virtual environments
 
+[detailed explanation](python_oop_concepts.md)
+
 ## 🔹 10. File Handling
 - Reading/writing files (`open()`, `read()`, `write()`, `with`)
 - Working with file paths (`os`, `pathlib`)
+
+[detailed explanation](python_oop_concepts.md)
 
 ## 🔹 11. Libraries and Frameworks (bonus!)
 - **Standard Library**: `math`, `random`, `datetime`, etc.
@@ -69,6 +84,8 @@
   - **Data**: `pandas`, `numpy`
   - **Web**: `flask`, `django`
   - **AI/ML**: `tensorflow`, `torch`, `scikit-learn`
+
+[detailed explanation](python_oop_concepts.md)
 
 ## 🔹 12. Advanced Concepts (optional depending on level)
 - Decorators
