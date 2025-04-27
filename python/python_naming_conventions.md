@@ -102,3 +102,9 @@ payments/
 - Avoid names like `l`, `O`, or `I` — they can be confused with numbers.
 - Use meaningful names: `user_id` is better than `u`.
 - Stick to convention! It makes collaboration and maintenance easier.
+
+
+tools:
+`unittest `
+`pytest`
+linters like `flake8` or `black`
