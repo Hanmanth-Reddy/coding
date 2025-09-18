@@ -1,0 +1,6 @@
+[submodule "azure-aks-kubernetes-masterclass"]
+	path = azure-aks-kubernetes-masterclass
+	url = https://github.com/stacksimplify/azure-aks-kubernetes-masterclass.git
+[submodule "aws-eks-kubernetes-masterclass"]
+	path = aws-eks-kubernetes-masterclass
+	url = https://github.com/stacksimplify/aws-eks-kubernetes-masterclass.git
