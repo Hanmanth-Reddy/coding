@@ -18,6 +18,8 @@ az network vnet subnet create \
 ## Vnet in Japan east region
 az network vnet create -g group-2 -n japan-Vnet --address-prefix 10.1.0.0/16 --subnet-name subnet-1 --subnet-prefixes 10.1.0.0/24 --location japaneast
 
+
+
 ## Terminology:
 
 Vnet is regional.
