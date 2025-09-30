@@ -29,7 +29,7 @@ az account set --subscription <subscription-id-or-name> --tenant <tenant-id>
 --query   --> JMESPath query to filter output(--query "[].name").
 
 
-
+## AZ Resource groups 
 az group create -l eastus -n test-group 
 
 az resource list -o table 
