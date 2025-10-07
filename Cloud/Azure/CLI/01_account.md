@@ -50,3 +50,11 @@ az extension add -n azure-devops
 ```
 az extension add -n storage-preview
 az extension add --name aks-preview
+
+
+
+
+# IAM 
+
+Azure Active Directory (Azure AD) / Azure entra ID
+Microsoft centralized identity system — contains user authentication, access control, SSO (Single Sign-On), MFA (Multi-Factor Authentication).

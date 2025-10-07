@@ -150,3 +150,19 @@ Azure → Managed Identity + NSG rules with ASGs
 AWS → Security Groups tied with IAM roles
 
 GCP → Firewall rules using Service Accounts
+
+gcloud iam 
+
+
+
+User,Group,Service Account , G Suite / Google Workspace (Google Cloud Identity + Productivity apps like Gmail, Calendar, Drive, Docs, Sheets, Meet), domain
+
+
+gcloud projects add-iam-policy-binding my-project \
+  --member="serviceAccount:ci-bot@my-project.iam.gserviceaccount.com" \
+  --role="roles/storage.admin"
+
+Service Account format:
+serviceaccoutname@<project-id>.iam.gserviceaccount.com
+
+Consider all above conversation and provide all Azure and AWS IAM conecpts, I want to learn
