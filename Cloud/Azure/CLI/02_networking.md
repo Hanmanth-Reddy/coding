@@ -25,11 +25,18 @@ Private IP
 Public IP (Dynamic , Static)
 
 network security Groups (NSG)
-inbound/outbound 
+inbound(ingress)/outbound(egress) 
+
+
+
+Network security groups(NSG) needs attach to subnets and VM NIC's
+VPC firewall rules 
+
+
 Azure firewall
 DNS
 
-routing
+Routing
 
 DNS
 
@@ -38,7 +45,7 @@ DNS
 by default all resources in Vnet can able to communicate with internet
 
 ## Communication Between resources
-through Virtual network(Vnet)
+with in Virtual network(Vnet)
 through Virtual network(Vnet) peering 
 through service endpoints
 

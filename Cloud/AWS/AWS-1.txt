@@ -151,7 +151,7 @@ To manage permissions of IAM indetities - Users , Groups, Roles
 Allow/Deny , Deny has more priority over allow
 
 Inline policies 
-AWS managed 
+AWS managed
 Customer polcies  
 
 
