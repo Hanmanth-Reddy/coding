@@ -1,7 +1,7 @@
 ## DNS Fuction
-- name resolution: how domain names are structured.
-- name registration: how domain name is registred.
-- name space:
+- **name resolution:** how domain names are structured.
+- **name registration:** how domain name is registred.
+- **name space:**
 
 
 
