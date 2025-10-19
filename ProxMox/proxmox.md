@@ -1,5 +1,17 @@
-## ⚔️ Proxmox VE vs VMware ESXi (vSphere)
+# What is Proxmox VE?
+- It's a Open-source Virtualization Environment
+- You can run VMs as well as Containers
+- Single web-based interface
+- High Availability Cluster manager
+- Built-in services Firewall, Backup/restore, Storage and replication etc
+- Enterprise level support
+- Wide range of storage options CIFS, NFS, Ceph, ZFS, iSCSI, LVM and CephFS etc.
+- REST API Support
+- Role Based Administration
 
+
+## ⚔️ Proxmox VE vs VMware ESXi (vSphere)
+-------------------------------------------------------------------------------------------------------------------------------------
 | Feature / Aspect          | **Proxmox VE** 🧩                                      | **VMware ESXi / vSphere** 💼                       |
 | ------------------------- | ------------------------------------------------------ | -------------------------------------------------- |
 | **Type**                  | Open-source virtualization platform                    | Proprietary hypervisor (commercial)                |
@@ -19,3 +31,4 @@
 | **Community & Support**   | Large open-source community + paid enterprise repo     | Enterprise-level support (VMware)                  |
 | **Cost**                  | Free core features, optional support ~$100–200/node/yr | Licensing can be thousands per host                |
 | **Use Cases**             | Home labs, SMBs, private clouds, developers            | Enterprise data centers, production-grade SLAs     |
+-------------------------------------------------------------------------------------------------------------------------------------
