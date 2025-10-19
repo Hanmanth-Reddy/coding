@@ -7,6 +7,36 @@ A handy guide to essential Terraform commands grouped by purpose.
 
 ## 🔧 Terraform Commands
 
+
+terraform plan --detroy 
+terraform destroy --target=modules.dev_Env_module
+
+
+-var -var-file -target -refresh
+
+```bash
+terraform init -reconfigure
+
+
+
+terraform plan -destroy
+terraform plan -var-file=prod.tfvars
+terraform plan --var-file=prod.tfvars
+terraform plan -out v1plan
+
+
+terraform plan -var="region=us-west1"
+terraform plan --var="region=us-west1"
+
+
+terraform apply --auto-aprove
+
+terraform apply -target=aws_instance.example
+terraform apply --target=aws_instance.example
+```
+
+
+
 ```bash
 terraform init                    # Initialize the working directory
 terraform validate                # Validate the syntax
@@ -84,6 +114,7 @@ terraform unlock                   # Manually unlock the state
 15) Remote Execution: Run Terraform in CI/CD or cloud platforms (e.g., Terraform Cloud, GitHub Actions). 
 16) Dynamic blocks: Used for generating nested blocks dynamically.
 17) Service Pricipals: In GCP, **Service Accounts** are the equivalent of **Service Principals** in Azure.
+18) Terraform settings block
 ```
 
 
@@ -106,7 +137,7 @@ key1 = "va11"
 ---
 
 #### Variable
-terraform.vars
+terraform.tfvars
 variables.tf
 
 variable "name" {
@@ -125,3 +156,9 @@ terraform import
 ---
 
 #### Backend
+
+
+
+
+
+#### Modules 

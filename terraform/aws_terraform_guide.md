@@ -44,6 +44,24 @@ variable "region" {
   default = "us-west-2"
 }
 ```
+---
+
+## 8. Outputs
+
+```hcl
+output "instance_id" {
+  value = aws_instance.web.id
+}
+```
+---
+
+## 13. Local Values
+
+```hcl
+locals {
+  instance_type = "t2.micro"
+}
+```
 
 ---
 
@@ -96,15 +114,6 @@ data "aws_ami" "ubuntu" {
 }
 ```
 
----
-
-## 8. Outputs
-
-```hcl
-output "instance_id" {
-  value = aws_instance.web.id
-}
-```
 
 ---
 
@@ -136,16 +145,6 @@ provisioner "remote-exec" {
 ## 12. Meta-Arguments
 
 - `count`, `for_each`, `depends_on`, `provider`
-
----
-
-## 13. Local Values
-
-```hcl
-locals {
-  instance_type = "t2.micro"
-}
-```
 
 ---
 

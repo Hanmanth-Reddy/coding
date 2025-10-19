@@ -274,7 +274,3 @@ terraform destroy     # Destroy infrastructure
 terraform fmt         # Format configuration
 terraform validate    # Validate syntax
 ```
-
----
-
-Let me know if you want this in `.docx`, `.pdf`, or as a sample Terraform project repo too!
