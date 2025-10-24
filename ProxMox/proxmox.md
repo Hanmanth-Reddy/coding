@@ -1,3 +1,30 @@
+
+## Virtualization platforms 
+- `Vmware`
+- `proxmox VE`
+- `hyperV`
+
+
+
+Full/KErbnel viraulization - KVM 
+Containerzation Virtualization - LXC
+Software defined storage - SDS
+Linux bridge - Kernel device model 
+
+
+Local Storage 
+- `DAS ( Direct attached storage)`
+- `SAN (Storage Area network)`
+- `NAS ( Network attached Storage)`
+
+
+Web UI
+    Manage VM
+    Containers 
+    HA cluster
+    DR tolls (back and recovery/restore)
+
+
 # What is Proxmox VE?
 - It's a Open-source Virtualization Environment
 - You can run VMs as well as Containers
