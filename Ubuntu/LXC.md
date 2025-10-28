@@ -6,6 +6,29 @@ lxc exec testvm -- bash
 ```
 
 
+#### LXD supports multiple storage backends:
+**zfs** → ZFS filesystem
+**btrfs** → Btrfs filesystem
+**lvm** → Logical Volume Manager
+**dir** → Simple directory on host
+
+
+
+lxc storage create pool-1 zfs size=20GB
+lxc storage list
+
+lxc profile show default 
+lxc profile device add default root disk pool=pool-1 path=/
+
+lxc launch ubuntu:24.04 lxc-1
+lxc list
+
+lxc network list 
+lxc network create lxdbr0 ipv4.address=10.0.3.1/24 ipv4.nat=true ipv6.address=none
+lxc profile device add default eth0 nic nictype=bridged parent=lxdbr0 name=eth0
+
+
+
 # LXC and LXD Overview
 
 ## 1️⃣ What is LXC?
@@ -48,3 +71,12 @@ LXD is a **management layer on top of LXC**. It provides:
 | **Snapshots & migration** | Full snapshots, live migration           | Limited s
 
 
+LXC
+Package name (Ubuntu/Debian):
+sudo apt install lxc lxc-utils lxc-dev
+
+
+LXD
+Package name (Ubuntu/Debian):
+//sudo apt install lxd
+sudo snap install lxd

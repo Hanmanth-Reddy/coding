@@ -44,13 +44,6 @@ apt
 ```
 
 
-
-
-
-
-
-
-
 🧭 1. Package Management (apt / dpkg)
 RHEL: yum, dnf, .rpm
 Ubuntu: apt, dpkg, .deb
@@ -83,7 +76,11 @@ SELinux/AppArmor → protects system internals (processes, files, memory, socket
 🧩 5. Cloud-Init
 
 Ubuntu is the default OS for most cloud platforms (AWS, Azure, GCP).
-It uses cloud-init to configure networking, users, SSH keys, and packages during boot.
+It uses cloud-init to 
+1. configure networking,
+2. users,
+3. SSH keys,
+4. and packages during boot.
 
 ⚙️ 7. Service Management (systemd)
 
@@ -113,3 +110,9 @@ Ubuntu has LXD as a native system container solution (alternative to Docker).
 | **Cloud Init** | optional | default | `cloud-init` |
 | **Containers** | podman/docker | LXD/LXC, docker | LXD usage |
 | **System Tools** | subscription-manager | Canonical Livepatch, Snap | Snap, Livepatch, Pro |
+
+
+
+
+## ARP - Address resoultion protocol 
+It’s a network protocol used to map an IP address to a MAC address within a local network (LAN).

@@ -167,6 +167,48 @@ terraform workspace list
 
 ## 11. Provisioners
 
+Provisioners are Terraform’s way to **execute scripts or commands on a resource** after it has been created (or before it is destroyed).
+
+They are **resource-specific** and usually used for **bootstrapping.**
+
+**Types of provisioners:**
+
+1. `remote-exec` → run commands on a remote machine (SSH or WinRM).
+
+2. `local-exec` → run commands locally on the machine where Terraform is executed.
+
+```hcl
+resource "google_compute_instance" "vm" {
+  name         = "test-vm"
+  machine_type = "e2-medium"
+  zone         = "us-east1-b"
+  boot_disk {
+    initialize_params {
+      image = "debian-cloud/debian-11"
+    }
+  }
+  network_interface {
+    network = data.google_compute_network.existing_vpc.self_link
+    access_config {}
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "sudo apt-get update",
+      "sudo apt-get install -y nginx"
+    ]
+
+    connection {
+      type        = "ssh"
+      host        = self.network_interface[0].network_ip
+      user        = "your-user"
+      private_key = file("~/.ssh/id_rsa")
+    }
+  }
+}
+
+```
+
 Used for configuration inside resources (e.g., SSH commands).
 
 ```hcl
@@ -194,6 +236,7 @@ Special arguments used in resources:
 
 Simplify expressions by assigning them to names.
 
+
 ```hcl
 locals {
   instance_type = "e2-medium"
@@ -208,7 +251,7 @@ machine_type = local.instance_type
 ---
 
 ## 14. Lifecycle Rules
-
+Control creation/deletion behavior (create_before_destroy, prevent_destroy, ignore_changes)
 Control create/delete/update behaviors.
 
 ```hcl

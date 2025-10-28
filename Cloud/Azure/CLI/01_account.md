@@ -58,3 +58,22 @@ az extension add --name aks-preview
 
 Azure Active Directory (Azure AD) / Azure entra ID
 Microsoft centralized identity system — contains user authentication, access control, SSO (Single Sign-On), MFA (Multi-Factor Authentication).
+
+
+## Login to Entra ID
+az login
+
+## List users
+az ad user create --display-name hanmanthreddy@hpatukurgmail.onmicrosoft.com --user-principal-name hanmanthreddy@hpatukurgmail.onmicrosoft.com --password 
+az ad user list
+
+# List service principals (app identities)
+az ad sp list
+
+# Assign role to user
+az role assignment create --assignee <user-email> --role Contributor --scope /subscriptions/<sub-id>
+ 
+
+GCP IAM (bindings, policies, scopes)
+AWS IAM (roles, policies, STS)
+Azure Entra ID / RBAC (definitions, assignments, scopes)

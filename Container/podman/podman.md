@@ -1,3 +1,6 @@
+ls /etc/containers/
+
+
 | **Use Case**                 | **Docker Command**                   | **Equivalent Podman Command**        |
 | ---------------------------- | ------------------------------------ | ------------------------------------ |
 | Run a container              | `docker run -it alpine`              | `podman run -it alpine`              |

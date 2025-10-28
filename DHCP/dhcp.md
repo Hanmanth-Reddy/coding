@@ -210,4 +210,10 @@ sudo nmcli con up enp0s3
 
 ```
 
+----------------------------------------------------------------------------------
+| OS     | Temp DHCP       | Persistent DHCP                                     |
+| ------ | --------------- | --------------------------------------------------- |
+| Ubuntu | `sudo dhclient` | Netplan (`/etc/netplan/*.yaml`)                     |
+| RHEL   | `sudo dhclient` | `/etc/sysconfig/network-scripts/ifcfg-*` or `nmcli` |
+----------------------------------------------------------------------------------
 
